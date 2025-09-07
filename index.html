@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Carbon Registry - MRV Prototype</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for image previews and modal */
+        .image-preview {
+            height: 100px;
+            width: 100px;
+            object-fit: cover;
+            border-radius: 0.375rem;
+        }
+
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+
+        /* Print styles for verification report */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            .print-section,
+            .print-section * {
+                visibility: visible;
+            }
+
+            .print-section {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+
+        /* Toast notification animation */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        .toast {
+            animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header Section -->
+    <header class="bg-blue-900 text-white p-4 shadow-md w-full">
+        <div
+            class="container mx-auto flex flex-col md:flex-row justify-between items-center md:items-start space-y-4 md:space-y-0">
+            <div class="text-center md:text-left">
+                <h1 class="text-2xl font-bold">MRV Prototype</h1>
+                <p class="text-sm text-blue-200">Monitoring, Reporting & Verification for Coastal Ecosystems</p>
+            </div>
+            <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 text-sm">
+                <div class="text-center sm:text-right">
+                    <strong>Team: </strong>
+                    <span class="font-semibold">CarbonCoders.PSITCHE</span>
+                </div>
+                <div class="flex justify-center">
+                    <img src="https://cse.noticebard.com/wp-content/uploads/sites/23/2024/08/Smart-India-Hackathon-2024.jpg"
+                        alt="SIH Logo" class="h-12 w-auto">
+                </div>
+                <div class="flex justify-center">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKz6dt18KrxaUi87ZYDSXntuEwFEtMHfHBig&s"
+                        alt="PSITCHE Logo" class="h-12 w-auto">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4 md:p-6">
+        <!-- How it works section -->
+        <div class="mb-6 bg-white rounded-lg shadow p-4">
+            <details class="cursor-pointer">
+                <summary class="text-lg font-semibold text-blue-800">How it works</summary>
+                <div id="howItWorksSection" class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <h3 class="text-xl font-semibold mb-4">Blue Carbon MRV Flow</h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="text-center">
+                            <div
+                                class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                                1</div>
+                            <h4 class="font-semibold">Monitor</h4>
+                            <p class="text-sm text-gray-600">Record restoration activities with photos and GPS data</p>
+                        </div>
+                        <div class="text-center">
+                            <div
+                                class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                                2</div>
+                            <h4 class="font-semibold">Verify</h4>
+                            <p class="text-sm text-gray-600">Third-party verification of restoration data and carbon
+                                estimates</p>
+                        </div>
+                        <div class="text-center">
+                            <div
+                                class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                                3</div>
+                            <h4 class="font-semibold">Credit</h4>
+                            <p class="text-sm text-gray-600">Mint tradeable carbon credits as blockchain tokens</p>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- Left Section: New Record Form -->
+            <section class="w-full lg:w-1/2 bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">New Restoration Record</h2>
+
+                <form id="recordForm" class="space-y-4">
+                    <div>
+                        <label for="projectName" class="block text-sm font-medium text-gray-700">Project Name *</label>
+                        <input type="text" id="projectName" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                    </div>
+
+                    <div>
+                        <label for="orgName" class="block text-sm font-medium text-gray-700">Organization Name *</label>
+                        <input type="text" id="orgName" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="latitude" class="block text-sm font-medium text-gray-700">Latitude *</label>
+                            <input type="number" step="any" id="latitude" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                        </div>
+                        <div>
+                            <label for="longitude" class="block text-sm font-medium text-gray-700">Longitude *</label>
+                            <input type="number" step="any" id="longitude" required
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="date" class="block text-sm font-medium text-gray-700">Date *</label>
+                        <input type="date" id="date" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                    </div>
+
+                    <div>
+                        <label for="species" class="block text-sm font-medium text-gray-700">Species *</label>
+                        <select id="species" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                            <option value="">Select a species</option>
+                            <option value="Avicennia">Avicennia (Factor: 2.5)</option>
+                            <option value="Rhizophora">Rhizophora (Factor: 3.0)</option>
+                            <option value="Sonneratia">Sonneratia (Factor: 2.0)</option>
+                        </select>
+                        <p class="mt-1 text-sm text-gray-500">Different species have different carbon sequestration
+                            factors</p>
+                    </div>
+
+                    <div>
+                        <label for="seedlingCount" class="block text-sm font-medium text-gray-700">Seedling Count
+                            *</label>
+                        <input type="number" id="seedlingCount" min="1" required
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                    </div>
+
+                    <div>
+                        <label for="notes" class="block text-sm font-medium text-gray-700">Notes</label>
+                        <textarea id="notes" rows="2"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="photo" class="block text-sm font-medium text-gray-700">Photo *</label>
+                        <input type="file" id="photo" accept="image/*" required
+                            class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        <div class="mt-2">
+                            <img id="photoPreview" class="image-preview hidden" alt="Photo preview">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input type="checkbox" id="includeDroneData"
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="includeDroneData" class="ml-2 block text-sm text-gray-700">Include drone
+                            data</label>
+                    </div>
+
+                    <div id="droneImageContainer" class="hidden">
+                        <label for="droneImage" class="block text-sm font-medium text-gray-700">Drone Image
+                            (Optional)</label>
+                        <input type="file" id="droneImage" accept="image/*"
+                            class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        <div class="mt-2">
+                            <img id="droneImagePreview" class="image-preview hidden" alt="Drone image preview">
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit"
+                            class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">Create
+                            Record</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Right Section: Records List -->
+            <section class="w-full lg:w-1/2">
+                <div class="bg-white rounded-lg shadow p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">Registry Records</h2>
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-600 mr-2">Verifier Mode</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="verifierToggle" class="sr-only peer">
+                                <div
+                                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="recordsList" class="space-y-4">
+                        <!-- Records will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <!-- Wallet and Transactions Panel -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Wallet & Transactions</h2>
+
+                    <div class="mb-6 p-4 bg-blue-50 rounded-lg">
+                        <h3 class="font-medium text-blue-800">Token Wallet</h3>
+                        <div class="mt-2 flex items-baseline">
+                            <span id="tokenBalance" class="text-2xl font-bold text-blue-700">0</span>
+                            <span class="ml-1 text-blue-600">BCC</span>
+                            <span class="text-sm text-blue-500 ml-2">(BlueCarbonCredit)</span>
+                        </div>
+
+                        <div class="mt-4 grid grid-cols-2 gap-2">
+                            <button id="transferBtn"
+                                class="bg-white text-blue-600 border border-blue-300 rounded py-1 px-2 text-sm hover:bg-blue-50">Transfer</button>
+                            <button id="retireBtn"
+                                class="bg-white text-green-600 border border-green-300 rounded py-1 px-2 text-sm hover:bg-green-50">Retire</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-medium text-gray-700 mb-2">Recent Transactions</h3>
+                        <div id="transactionsList" class="space-y-2 max-h-60 overflow-y-auto">
+                            <!-- Transactions will be dynamically inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+
+    <!-- Record Detail Modal -->
+    <div id="recordModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-40 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800" id="modalTitle">Record Details</h3>
+                    <button id="closeModal" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div id="modalContent">
+                    <!-- Modal content will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer Modal -->
+    <div id="transferModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-40 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Transfer Credits</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label for="recipientAddress" class="block text-sm font-medium text-gray-700">Recipient
+                            Address</label>
+                        <input type="text" id="recipientAddress" placeholder="0x..."
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                    </div>
+                    <div>
+                        <label for="transferAmount" class="block text-sm font-medium text-gray-700">Amount (BCC)</label>
+                        <input type="number" id="transferAmount" min="1"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button id="cancelTransfer"
+                            class="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Cancel</button>
+                        <button id="confirmTransfer"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Transfer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Retire Modal -->
+    <div id="retireModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-40 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Retire Credits</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label for="retireAmount" class="block text-sm font-medium text-gray-700">Amount to Retire
+                            (BCC)</label>
+                        <input type="number" id="retireAmount" min="1"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border">
+                    </div>
+                    <div>
+                        <label for="retireReason" class="block text-sm font-medium text-gray-700">Reason for
+                            Retirement</label>
+                        <textarea id="retireReason" rows="3"
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button id="cancelRetire"
+                            class="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">Cancel</button>
+                        <button id="confirmRetire"
+                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Retire
+                            Credits</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg flex items-center">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+            </svg>
+            <span>Processing...</span>
+        </div>
+    </div>
+
+    <script>
+        // Constants and configuration
+        const SPECIES_FACTORS = {
+            'Avicennia': 2.5,
+            'Rhizophora': 3.0,
+            'Sonneratia': 2.0
+        };
+
+        const STATUSES = {
+            DRAFT: 'Draft',
+            PROVISIONAL: 'Provisional',
+            VERIFIED: 'Verified',
+            CREDITED: 'Credited',
+            RETIRED: 'Retired'
+        };
+
+        // Application state
+        let state = {
+            records: [],
+            tokenBalance: 0,
+            transactions: [],
+            isVerifierMode: false
+        };
+
+        // DOM Elements
+        const recordForm = document.getElementById('recordForm');
+        const recordsList = document.getElementById('recordsList');
+        const tokenBalanceEl = document.getElementById('tokenBalance');
+        const transactionsList = document.getElementById('transactionsList');
+        const verifierToggle = document.getElementById('verifierToggle');
+        const recordModal = document.getElementById('recordModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalTitle = document.getElementById('modalTitle');
+        const closeModal = document.getElementById('closeModal');
+        const toastContainer = document.getElementById('toastContainer');
+        const transferBtn = document.getElementById('transferBtn');
+        const retireBtn = document.getElementById('retireBtn');
+        const transferModal = document.getElementById('transferModal');
+        const retireModal = document.getElementById('retireModal');
+        const cancelTransfer = document.getElementById('cancelTransfer');
+        const confirmTransfer = document.getElementById('confirmTransfer');
+        const cancelRetire = document.getElementById('cancelRetire');
+        const confirmRetire = document.getElementById('confirmRetire');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const includeDroneData = document.getElementById('includeDroneData');
+        const droneImageContainer = document.getElementById('droneImageContainer');
+        const photoPreview = document.getElementById('photoPreview');
+        const droneImagePreview = document.getElementById('droneImagePreview');
+        const photoInput = document.getElementById('photo');
+        const droneImageInput = document.getElementById('droneImage');
+
+        // Initialize the application
+        function init() {
+            loadState();
+            renderRecords();
+            renderTransactions();
+            updateTokenBalance();
+            setupEventListeners();
+            addSampleDataIfNeeded();
+        }
+
+        // Load state from localStorage
+        function loadState() {
+            const savedState = localStorage.getItem('blueCarbonState');
+            if (savedState) {
+                state = JSON.parse(savedState);
+            }
+        }
+
+        // Save state to localStorage
+        function saveState() {
+            localStorage.setItem('blueCarbonState', JSON.stringify(state));
+        }
+
+        // Add sample data if no records exist
+        function addSampleDataIfNeeded() {
+            if (state.records.length === 0) {
+                const sampleRecords = [
+                    {
+                        id: 'rec_1',
+                        projectName: 'Mangrove Rehab Site A',
+                        org: 'Seashore NGO',
+                        lat: 21.4,
+                        lng: 87.1,
+                        date: '2025-09-07',
+                        species: 'Avicennia',
+                        seedlingCount: 120,
+                        carbonEstimate: 300,
+                        photoDataUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiM0ZmE2NmYiLz4KPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5NYW5ncm92ZSBQaG90bzwvdGV4dD4KPC9zdmc+',
+                        droneDataUrl: '',
+                        status: STATUSES.DRAFT,
+                        cid: 'CID-1q2w3e4r',
+                        verificationReportCid: null,
+                        onchainTxHash: null,
+                        createdAt: Date.now() - 86400000 // 1 day ago
+                    },
+                    {
+                        id: 'rec_2',
+                        projectName: 'Coastal Wetland Restoration',
+                        org: 'Marine Conservation Society',
+                        lat: 19.2,
+                        lng: 85.5,
+                        date: '2025-08-15',
+                        species: 'Rhizophora',
+                        seedlingCount: 200,
+                        carbonEstimate: 600,
+                        photoDataUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiMzMzk5NjYiLz4KPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5XZXRsYW5kIFBob3RvPC90ZXh0Pgo8L3N2Zz4=',
+                        droneDataUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiM2NjY2NjYiLz4KPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Ecm9uZSBJbWFnZTwvdGV4dD4KPC9zdmc+',
+                        status: STATUSES.PROVISIONAL,
+                        cid: 'CID-5t6y7u8i',
+                        verificationReportCid: null,
+                        onchainTxHash: '0x1a2b3c4d5e6f7890',
+                        createdAt: Date.now() - 172800000 // 2 days ago
+                    }
+                ];
+
+                state.records = sampleRecords;
+                saveState();
+                renderRecords();
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Form submission
+            recordForm.addEventListener('submit', handleFormSubmit);
+
+            // Verifier mode toggle
+            verifierToggle.addEventListener('change', function () {
+                state.isVerifierMode = this.checked;
+                saveState();
+                renderRecords();
+            });
+
+            // Modal close
+            closeModal.addEventListener('click', () => {
+                recordModal.classList.add('hidden');
+            });
+
+            // Wallet actions
+            transferBtn.addEventListener('click', () => {
+                transferModal.classList.remove('hidden');
+            });
+
+            retireBtn.addEventListener('click', () => {
+                retireModal.classList.remove('hidden');
+            });
+
+            // Transfer modal actions
+            cancelTransfer.addEventListener('click', () => {
+                transferModal.classList.add('hidden');
+            });
+
+            confirmTransfer.addEventListener('click', handleTransfer);
+
+            // Retire modal actions
+            cancelRetire.addEventListener('click', () => {
+                retireModal.classList.add('hidden');
+            });
+
+            confirmRetire.addEventListener('click', handleRetire);
+
+            // Drone data checkbox
+            includeDroneData.addEventListener('change', function () {
+                droneImageContainer.classList.toggle('hidden', !this.checked);
+                if (!this.checked) {
+                    droneImageInput.value = '';
+                    droneImagePreview.classList.add('hidden');
+                }
+            });
+
+            // Image preview handlers
+            photoInput.addEventListener('change', function () {
+                previewImage(this, photoPreview);
+            });
+
+            droneImageInput.addEventListener('change', function () {
+                previewImage(this, droneImagePreview);
+            });
+        }
+
+        // Preview uploaded image
+        function previewImage(input, previewElement) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewElement.src = e.target.result;
+                    previewElement.classList.remove('hidden');
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Handle form submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            // Get form values
+            const projectName = document.getElementById('projectName').value;
+            const orgName = document.getElementById('orgName').value;
+            const latitude = parseFloat(document.getElementById('latitude').value);
+            const longitude = parseFloat(document.getElementById('longitude').value);
+            const date = document.getElementById('date').value;
+            const species = document.getElementById('species').value;
+            const seedlingCount = parseInt(document.getElementById('seedlingCount').value);
+            const notes = document.getElementById('notes').value;
+            const includeDrone = document.getElementById('includeDroneData').checked;
+
+            // Validate required image
+            if (!photoInput.files[0]) {
+                showToast('Please upload a photo', 'error');
+                return;
+            }
+
+            // Calculate carbon estimate
+            const speciesFactor = SPECIES_FACTORS[species] || 2.0;
+            const daysPlanted = Math.max(1, Math.floor((Date.now() - new Date(date).getTime()) / (1000 * 60 * 60 * 24)));
+            const ageFactor = Math.min(2.0, 1 + (daysPlanted / 365) * 0.1); // Simple age factor simulation
+            const carbonEstimate = Math.round(seedlingCount * speciesFactor * ageFactor);
+
+            // Read images as data URLs
+            const photoReader = new FileReader();
+            photoReader.onload = function () {
+                let droneDataUrl = '';
+
+                // If drone image is included, read it too
+                if (includeDrone && droneImageInput.files[0]) {
+                    const droneReader = new FileReader();
+                    droneReader.onload = function () {
+                        droneDataUrl = droneReader.result;
+                        createRecord(
+                            projectName, orgName, latitude, longitude, date,
+                            species, seedlingCount, notes, photoReader.result,
+                            droneDataUrl, carbonEstimate
+                        );
+                    };
+                    droneReader.readAsDataURL(droneImageInput.files[0]);
+                } else {
+                    createRecord(
+                        projectName, orgName, latitude, longitude, date,
+                        species, seedlingCount, notes, photoReader.result,
+                        droneDataUrl, carbonEstimate
+                    );
+                }
+            };
+            photoReader.readAsDataURL(photoInput.files[0]);
+        }
+
+        // Create a new record
+        function createRecord(projectName, orgName, lat, lng, date, species, seedlingCount, notes, photoDataUrl, droneDataUrl, carbonEstimate) {
+            showLoading(true);
+
+            // Simulate network delay
+            setTimeout(() => {
+                const newRecord = {
+                    id: 'rec_' + Math.random().toString(36).substr(2, 9),
+                    projectName,
+                    org: orgName,
+                    lat,
+                    lng,
+                    date,
+                    species,
+                    seedlingCount,
+                    carbonEstimate,
+                    notes,
+                    photoDataUrl,
+                    droneDataUrl,
+                    status: STATUSES.DRAFT,
+                    cid: 'CID-' + Date.now().toString(36),
+                    verificationReportCid: null,
+                    onchainTxHash: null,
+                    createdAt: Date.now()
+                };
+
+                state.records.unshift(newRecord);
+                saveState();
+                renderRecords();
+
+                // Reset form
+                recordForm.reset();
+                photoPreview.classList.add('hidden');
+                droneImagePreview.classList.add('hidden');
+                droneImageContainer.classList.add('hidden');
+
+                showLoading(false);
+                showToast(`Record created successfully! CID: ${newRecord.cid}`, 'success');
+
+                // Log transaction
+                addTransaction('register', `New project "${projectName}" registered`);
+            }, 1000);
+        }
+
+        // Handle credit transfer
+        function handleTransfer() {
+            const recipient = document.getElementById('recipientAddress').value;
+            const amount = parseInt(document.getElementById('transferAmount').value);
+
+            if (!recipient || !amount || amount <= 0) {
+                showToast('Please enter valid recipient and amount', 'error');
+                return;
+            }
+
+            if (amount > state.tokenBalance) {
+                showToast('Insufficient balance', 'error');
+                return;
+            }
+
+            showLoading(true);
+
+            // Simulate network delay
+            setTimeout(() => {
+                state.tokenBalance -= amount;
+                saveState();
+                updateTokenBalance();
+
+                transferModal.classList.add('hidden');
+                document.getElementById('recipientAddress').value = '';
+                document.getElementById('transferAmount').value = '';
+
+                showLoading(false);
+                showToast(`Transferred ${amount} BCC to ${recipient}`, 'success');
+
+                // Log transaction
+                addTransaction('transfer', `Transferred ${amount} BCC to ${recipient}`);
+            }, 1000);
+        }
+
+        // Handle credit retirement
+        function handleRetire() {
+            const amount = parseInt(document.getElementById('retireAmount').value);
+            const reason = document.getElementById('retireReason').value;
+
+            if (!amount || amount <= 0) {
+                showToast('Please enter a valid amount', 'error');
+                return;
+            }
+
+            if (amount > state.tokenBalance) {
+                showToast('Insufficient balance', 'error');
+                return;
+            }
+
+            showLoading(true);
+
+            // Simulate network delay
+            setTimeout(() => {
+                state.tokenBalance -= amount;
+                saveState();
+                updateTokenBalance();
+
+                retireModal.classList.add('hidden');
+                document.getElementById('retireAmount').value = '';
+                document.getElementById('retireReason').value = '';
+
+                showLoading(false);
+                showToast(`Retired ${amount} BCC credits`, 'success');
+
+                // Log transaction
+                addTransaction('retire', `Retired ${amount} BCC credits: ${reason}`);
+            }, 1000);
+        }
+
+        // Submit record for verification
+        function submitForVerification(recordId) {
+            showLoading(true);
+
+            // Simulate network delay
+            setTimeout(() => {
+                const record = state.records.find(r => r.id === recordId);
+                if (record) {
+                    record.status = STATUSES.PROVISIONAL;
+                    record.onchainTxHash = generateTxHash();
+                    saveState();
+                    renderRecords();
+
+                    showLoading(false);
+                    showToast('Record submitted for verification', 'success');
+
+                    // Log transaction
+                    addTransaction('submit', `Project "${record.projectName}" submitted for verification`);
+                }
+            }, 1000);
+        }
+
+        // Verify a record
+        function verifyRecord(recordId) {
+            showLoading(true);
+
+            // Simulate network delay
+            setTimeout(() => {
+                const record = state.records.find(r => r.id === recordId);
+                if (record) {
+                    record.status = STATUSES.VERIFIED;
+                    record.verificationReportCid = 'REPORT-' + Date.now().toString(36);
+                    saveState();
+                    renderRecords();
+
+                    showLoading(false);
+                    showToast('Record verified successfully', 'success');
+
+                    // Log transaction
+                    addTransaction('verify', `Project "${record.projectName}" verified`);
+                }
+            }, 1000);
+        }
+
+        // Reject a record
+        function rejectRecord(recordId) {
+            const record = state.records.find(r => r.id === recordId);
+            if (record) {
+                record.status = STATUSES.DRAFT;
+                saveState();
+                renderRecords();
+
+                showToast('Record rejected and returned to draft status', 'info');
+
+                // Log transaction
+                addTransaction('reject', `Project "${record.projectName}" rejected`);
+            }
+        }
+
+        // Mint credits for a verified record
+        function mintCredits(recordId) {
+            showLoading(true);
+
+            // Simulate network delay
+            setTimeout(() => {
+                const record = state.records.find(r => r.id === recordId);
+                if (record) {
+                    record.status = STATUSES.CREDITED;
+                    state.tokenBalance += record.carbonEstimate;
+                    saveState();
+                    renderRecords();
+                    updateTokenBalance();
+
+                    showLoading(false);
+                    showToast(`Minted ${record.carbonEstimate} BCC credits`, 'success');
+
+                    // Log transaction
+                    addTransaction('mint', `Minted ${record.carbonEstimate} BCC for project "${record.projectName}"`);
+                }
+            }, 1000);
+        }
+
+        // Delete a record
+        function deleteRecord(recordId) {
+            if (confirm('Are you sure you want to delete this record?')) {
+                state.records = state.records.filter(record => record.id !== recordId);
+                saveState();
+                renderRecords();
+                showToast('Record deleted', 'info');
+            }
+        }
+
+        // View record details
+        function viewRecord(recordId) {
+            const record = state.records.find(r => r.id === recordId);
+            if (!record) return;
+
+            modalTitle.textContent = record.projectName;
+
+            // Format date for display
+            const createdDate = new Date(record.createdAt).toLocaleDateString();
+
+            // Create modal content
+            modalContent.innerHTML = `
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-medium text-gray-700">Project Information</h4>
+                            <dl class="mt-2 space-y-1">
+                                <div class="flex">
+                                    <dt class="text-sm text-gray-500 w-32">Organization:</dt>
+                                    <dd class="text-sm">${record.org}</dd>
+                                </div>
+                                <div class="flex">
+                                    <dt class="text-sm text-gray-500 w-32">Species:</dt>
+                                    <dd class="text-sm">${record.species}</dd>
+                                </div>
+                                <div class="flex">
+                                    <dt class="text-sm text-gray-500 w-32">Seedlings:</dt>
+                                    <dd class="text-sm">${record.seedlingCount.toLocaleString()}</dd>
+                                </div>
+                                <div class="flex">
+                                    <dt class="text-sm text-gray-500 w-32">Est. Carbon:</dt>
+                                    <dd class="text-sm">${record.carbonEstimate.toLocaleString()} kg CO₂</dd>
+                                </div>
+                                <div class="flex">
+                                    <dt class="text-sm text-gray-500 w-32">Planted on:</dt>
+                                    <dd class="text-sm">${record.date}</dd>
+                                </div>
+                                <div class="flex">
+                                    <dt class="text-sm text-gray-500 w-32">Location:</dt>
+                                    <dd class="text-sm">${record.lat.toFixed(4)}, ${record.lng.toFixed(4)}</dd>
+                                </div>
+                                <div class="flex">
+                                    <dt class="text-sm text-gray-500 w-32">Status:</dt>
+                                    <dd class="text-sm">
+                                        <span class="px-2 py-1 text-xs font-medium rounded-full 
+                                            ${getStatusClass(record.status)}">
+                                            ${record.status}
+                                        </span>
+                                    </dd>
+                                </div>
+                                <div class="flex">
+                                    <dt class="text-sm text-gray-500 w-32">CID:</dt>
+                                    <dd class="text-sm font-mono">${record.cid}</dd>
+                                </div>
+                                ${record.verificationReportCid ? `
+                                <div class="flex">
+                                    <dt class="text-sm text-gray-500 w-32">Report CID:</dt>
+                                    <dd class="text-sm font-mono">${record.verificationReportCid}</dd>
+                                </div>
+                                ` : ''}
+                                ${record.onchainTxHash ? `
+                                <div class="flex">
+                                    <dt class="text-sm text-gray-500 w-32">Tx Hash:</dt>
+                                    <dd class="text-sm font-mono">${record.onchainTxHash}</dd>
+                                </div>
+                                ` : ''}
+                            </dl>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-700">Location Map</h4>
+                            <div class="mt-2 bg-gray-100 rounded-md p-4 flex items-center justify-center h-40">
+                                <p class="text-gray-500 text-sm">Map visualization at ${record.lat.toFixed(4)}, ${record.lng.toFixed(4)}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    ${record.notes ? `
+                    <div>
+                        <h4 class="font-medium text-gray-700">Notes</h4>
+                        <p class="mt-1 text-sm text-gray-600">${record.notes}</p>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-medium text-gray-700">Photo</h4>
+                            <img src="${record.photoDataUrl}" alt="Project photo" class="mt-2 rounded-md w-full h-48 object-cover">
+                        </div>
+                        ${record.droneDataUrl ? `
+                        <div>
+                            <h4 class="font-medium text-gray-700">Drone Image</h4>
+                            <img src="${record.droneDataUrl}" alt="Drone image" class="mt-2 rounded-md w-full h-48 object-cover">
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    ${record.status === STATUSES.VERIFIED || record.status === STATUSES.CREDITED ? `
+                    <div class="border-t pt-4">
+                        <h4 class="font-medium text-gray-700">Verification Report</h4>
+                        <div class="mt-2 p-4 bg-gray-50 rounded-md print-section">
+                            <h5 class="text-lg font-bold text-center">Blue Carbon Verification Report</h5>
+                            <div class="mt-4 space-y-2 text-sm">
+                                <p><strong>Project:</strong> ${record.projectName}</p>
+                                <p><strong>Organization:</strong> ${record.org}</p>
+                                <p><strong>Verification Date:</strong> ${new Date().toLocaleDateString()}</p>
+                                <p><strong>Verified By:</strong> Blue Carbon Registry Verifier Network</p>
+                                <p class="mt-4"><strong>Findings:</strong> This restoration project has been verified to have successfully planted ${record.seedlingCount} ${record.species} seedlings, estimated to sequester ${record.carbonEstimate} kg of CO₂ over the project lifetime.</p>
+                                <p class="mt-4"><strong>Verification CID:</strong> ${record.verificationReportCid}</p>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <button onclick="window.print()" class="text-sm text-blue-600 hover:text-blue-800">Print Report</button>
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="flex justify-between pt-4 border-t">
+                        <button onclick="exportRecord('${record.id}')" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 text-sm">
+                            Export JSON
+                        </button>
+                        <button onclick="deleteRecord('${record.id}')" class="px-4 py-2 bg-red-100 text-red-700 rounded-md hover:bg-red-200 text-sm">
+                            Delete Record
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            recordModal.classList.remove('hidden');
+        }
+
+        // Export record as JSON
+        function exportRecord(recordId) {
+            const record = state.records.find(r => r.id === recordId);
+            if (!record) return;
+
+            // Create a clean copy without data URLs for export
+            const { photoDataUrl, droneDataUrl, ...exportData } = record;
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", `bluecarbon-record-${recordId}.json`);
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+
+            showToast('Record exported as JSON', 'success');
+        }
+
+        // Render all records
+        function renderRecords() {
+            recordsList.innerHTML = '';
+
+            if (state.records.length === 0) {
+                recordsList.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p class="mt-2">No records yet. Create your first restoration record.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            state.records.forEach(record => {
+                const recordEl = document.createElement('div');
+                recordEl.className = 'border rounded-lg p-4 bg-white';
+
+                // Format date for display
+                const createdDate = new Date(record.createdAt).toLocaleDateString();
+
+                recordEl.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-medium text-gray-900 truncate">${record.projectName}</h3>
+                            <p class="text-sm text-gray-500">${record.org} • ${createdDate}</p>
+                            <div class="mt-2 flex items-center space-x-2">
+                                <span class="px-2 py-1 text-xs font-medium rounded-full ${getStatusClass(record.status)}">
+                                    ${record.status}
+                                </span>
+                                <span class="text-xs text-gray-500">CID: ${record.cid}</span>
+                            </div>
+                        </div>
+                        <div class="ml-4 flex-shrink-0">
+                            <img src="${record.photoDataUrl}" alt="Project thumbnail" class="h-12 w-12 rounded-md object-cover">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 grid grid-cols-2 gap-2 text-sm">
+                        <div>
+                            <span class="text-gray-500">Location:</span>
+                            <span class="ml-1">${record.lat.toFixed(2)}, ${record.lng.toFixed(2)}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Carbon Est.:</span>
+                            <span class="ml-1 font-medium">${record.carbonEstimate.toLocaleString()} kg CO₂</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 flex justify-between">
+                        <div class="flex space-x-2">
+                            <button onclick="viewRecord('${record.id}')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 text-sm">
+                                View
+                            </button>
+                            
+                            ${record.status === STATUSES.DRAFT && !state.isVerifierMode ? `
+                            <button onclick="submitForVerification('${record.id}')" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 text-sm">
+                                Submit
+                            </button>
+                            ` : ''}
+                            
+                            ${state.isVerifierMode && record.status === STATUSES.PROVISIONAL ? `
+                            <button onclick="verifyRecord('${record.id}')" class="px-3 py-1 bg-green-100 text-green-700 rounded-md hover:bg-green-200 text-sm">
+                                Verify
+                            </button>
+                            <button onclick="rejectRecord('${record.id}')" class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-md hover:bg-yellow-200 text-sm">
+                                Reject
+                            </button>
+                            ` : ''}
+                            
+                            ${record.status === STATUSES.VERIFIED ? `
+                            <button onclick="mintCredits('${record.id}')" class="px-3 py-1 bg-purple-100 text-purple-700 rounded-md hover:bg-purple-200 text-sm">
+                                Mint Credits
+                            </button>
+                            ` : ''}
+                        </div>
+                        
+                        ${!state.isVerifierMode ? `
+                        <button onclick="deleteRecord('${record.id}')" class="px-3 py-1 text-red-600 hover:text-red-800 text-sm">
+                            Delete
+                        </button>
+                        ` : ''}
+                    </div>
+                `;
+
+                recordsList.appendChild(recordEl);
+            });
+        }
+
+        // Render transactions list
+        function renderTransactions() {
+            transactionsList.innerHTML = '';
+
+            if (state.transactions.length === 0) {
+                transactionsList.innerHTML = `
+                    <div class="text-center py-4 text-gray-500 text-sm">
+                        No transactions yet
+                    </div>
+                `;
+                return;
+            }
+
+            // Show latest transactions first
+            const sortedTransactions = [...state.transactions].reverse();
+
+            sortedTransactions.forEach(tx => {
+                const txEl = document.createElement('div');
+                txEl.className = 'text-sm';
+
+                // Format timestamp
+                const txDate = new Date(tx.timestamp).toLocaleTimeString();
+
+                // Get appropriate icon and color based on transaction type
+                let txIcon = '';
+                let txColor = 'text-gray-500';
+
+                switch (tx.type) {
+                    case 'register':
+                        txIcon = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>';
+                        txColor = 'text-blue-500';
+                        break;
+                    case 'submit':
+                        txIcon = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>';
+                        txColor = 'text-yellow-500';
+                        break;
+                    case 'verify':
+                        txIcon = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+                        txColor = 'text-green-500';
+                        break;
+                    case 'mint':
+                        txIcon = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+                        txColor = 'text-purple-500';
+                        break;
+                    case 'transfer':
+                        txIcon = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>';
+                        txColor = 'text-indigo-500';
+                        break;
+                    case 'retire':
+                        txIcon = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>';
+                        txColor = 'text-red-500';
+                        break;
+                    case 'reject':
+                        txIcon = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+                        txColor = 'text-red-500';
+                        break;
+                }
+
+                txEl.innerHTML = `
+                    <div class="flex items-start">
+                        <span class="${txColor} mr-2 mt-0.5">${txIcon}</span>
+                        <div>
+                            <div class="text-xs text-gray-400">${txDate}</div>
+                            <div>${tx.description}</div>
+                            ${tx.hash ? `<div class="text-xs font-mono text-gray-500 truncate" title="${tx.hash}">${tx.hash}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+
+                transactionsList.appendChild(txEl);
+            });
+        }
+
+        // Update token balance display
+        function updateTokenBalance() {
+            tokenBalanceEl.textContent = state.tokenBalance.toLocaleString();
+        }
+
+        // Add a transaction to the log
+        function addTransaction(type, description) {
+            const newTx = {
+                type,
+                description,
+                hash: type !== 'reject' ? generateTxHash() : null,
+                timestamp: Date.now()
+            };
+
+            state.transactions.push(newTx);
+
+            // Keep only the last 50 transactions
+            if (state.transactions.length > 50) {
+                state.transactions = state.transactions.slice(-50);
+            }
+
+            saveState();
+            renderTransactions();
+        }
+
+        // Generate a fake transaction hash
+        function generateTxHash() {
+            return '0x' + Math.random().toString(16).substr(2, 10) + Math.random().toString(16).substr(2, 10);
+        }
+
+        // Get CSS class for status badge
+        function getStatusClass(status) {
+            switch (status) {
+                case STATUSES.DRAFT: return 'bg-gray-100 text-gray-800';
+                case STATUSES.PROVISIONAL: return 'bg-yellow-100 text-yellow-800';
+                case STATUSES.VERIFIED: return 'bg-blue-100 text-blue-800';
+                case STATUSES.CREDITED: return 'bg-purple-100 text-purple-800';
+                case STATUSES.RETIRED: return 'bg-green-100 text-green-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        // Show loading overlay
+        function showLoading(show) {
+            if (show) {
+                loadingOverlay.classList.remove('hidden');
+            } else {
+                loadingOverlay.classList.add('hidden');
+            }
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast p-4 rounded-md shadow-md max-w-xs text-white ${type === 'success' ? 'bg-green-500' :
+                type === 'error' ? 'bg-red-500' :
+                    'bg-blue-500'
+                }`;
+            toast.textContent = message;
+
+            toastContainer.appendChild(toast);
+
+            // Remove toast after animation completes
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Initialize the app when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Make functions available globally for onclick handlers
+        window.viewRecord = viewRecord;
+        window.submitForVerification = submitForVerification;
+        window.verifyRecord = verifyRecord;
+        window.rejectRecord = rejectRecord;
+        window.mintCredits = mintCredits;
+        window.deleteRecord = deleteRecord;
+        window.exportRecord = exportRecord;
+    </script>
+</body>
+
+</html>
