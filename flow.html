@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Carbon Chain - Tech Stack</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for print and animations */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-full-width {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+        
+        .architecture-node {
+            transition: all 0.3s ease;
+        }
+        
+        .architecture-node:hover {
+            transform: scale(1.05);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .code-block {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.875em;
+        }
+        
+        .copy-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .copy-btn:hover {
+            background-color: #1e40af;
+        }
+        
+        .copy-btn.copied {
+            background-color: #065f46;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-primary-700 to-primary-900 text-white">
+        <div class="container mx-auto px-4 py-12">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Blue Carbon Chain</h1>
+                    <p class="text-xl mb-6">Transparent MRV for Coastal Ecosystem Restoration</p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center text-white font-bold mr-3">
+                            T
+                        </div>
+                        <p class="text-primary-200">Team TerraNova</p>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <!-- Hero illustration placeholder -->
+                    <div class="bg-primary-600 rounded-xl p-4 h-64 flex items-center justify-center">
+                        <svg class="w-full h-full" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Simplified blockchain nodes -->
+                            <circle cx="100" cy="150" r="30" fill="#0ea5e9" opacity="0.7" />
+                            <circle cx="250" cy="150" r="30" fill="#0ea5e9" opacity="0.7" />
+                            <circle cx="400" cy="150" r="30" fill="#0ea5e9" opacity="0.7" />
+                            
+                            <!-- Connections -->
+                            <line x1="130" y1="150" x2="220" y2="150" stroke="#0ea5e9" stroke-width="3" />
+                            <line x1="280" y1="150" x2="370" y2="150" stroke="#0ea5e9" stroke-width="3" />
+                            
+                            <!-- Nature elements -->
+                            <path d="M50,250 L150,180 L250,250 L350,180 L450,250 Z" fill="#22c55e" opacity="0.6" />
+                            <circle cx="300" cy="100" r="20" fill="#fde047" opacity="0.7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+        <!-- Intro Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-8">Technology Stack Overview</h2>
+            <div class="bg-white rounded-xl shadow-md p-8 max-w-3xl mx-auto">
+                <p class="text-xl text-center text-gray-700">
+                    Our tech stack enables transparent Measurement, Reporting, and Verification (MRV) of blue carbon restoration projects through blockchain-verified data integrity and decentralized storage.
+                </p>
+            </div>
+        </section>
+
+        <!-- Stack Summary Chips -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-semibold mb-6 text-center">Technology Components</h2>
+            <div class="flex flex-wrap justify-center gap-3">
+                <span class="bg-primary-100 text-primary-800 px-4 py-2 rounded-full font-medium">Polygon</span>
+                <span class="bg-primary-100 text-primary-800 px-4 py-2 rounded-full font-medium">Solidity</span>
+                <span class="bg-primary-100 text-primary-800 px-4 py-2 rounded-full font-medium">IPFS</span>
+                <span class="bg-primary-100 text-primary-800 px-4 py-2 rounded-full font-medium">React</span>
+                <span class="bg-primary-100 text-primary-800 px-4 py-2 rounded-full font-medium">Tailwind</span>
+                <span class="bg-primary-100 text-primary-800 px-4 py-2 rounded-full font-medium">Flutter</span>
+                <span class="bg-primary-100 text-primary-800 px-4 py-2 rounded-full font-medium">Node.js</span>
+                <span class="bg-primary-100 text-primary-800 px-4 py-2 rounded-full font-medium">Drones</span>
+                <span class="bg-primary-100 text-primary-800 px-4 py-2 rounded-full font-medium">Oracles</span>
+                <span class="bg-primary-100 text-primary-800 px-4 py-2 rounded-full font-medium">PostgreSQL</span>
+                <span class="bg-primary-100 text-primary-800 px-4 py-2 rounded-full font-medium">LocalStorage</span>
+            </div>
+        </section>
+
+        <!-- Detailed Cards Section -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-semibold mb-8 text-center">Technology Components</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blockchain Card -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="bg-primary-600 text-white p-4 flex items-center">
+                        <i class="fas fa-link text-2xl mr-3"></i>
+                        <h3 class="text-xl font-semibold">Blockchain: Polygon</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-700 mb-4">Used to store immutable registry entries and log issuance events.</p>
+                        <ul class="list-disc pl-5 text-gray-600 mb-4">
+                            <li>Low-cost transactions compared to Ethereum mainnet</li>
+                            <li>EVM compatibility for easy tooling integration</li>
+                            <li>Production: Polygon mainnet or secure L2</li>
+                            <li>Test/demo: simulated transaction hashes</li>
+                        </ul>
+                        <div class="bg-gray-100 p-4 rounded-lg mt-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                TxHash: 0x8d6e9406d...b2052d<br>
+                                Status: ✓ Success<br>
+                                Block: 34218763
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Smart Contracts Card -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="bg-primary-600 text-white p-4 flex items-center">
+                        <i class="fas fa-file-contract text-2xl mr-3"></i>
+                        <h3 class="text-xl font-semibold">Smart Contracts: Solidity</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-700 mb-4">Contracts manage roles, register restoration records, and mint tokenized credits.</p>
+                        <ul class="list-disc pl-5 text-gray-600 mb-4">
+                            <li>Role-based access (ADMIN, VERIFIER)</li>
+                            <li>ERC-20/ERC-1155 for credit tokenization</li>
+                            <li>Audited and pausable contracts</li>
+                            <li>Upgradeable contract architecture</li>
+                        </ul>
+                        <div class="bg-gray-100 p-4 rounded-lg mt-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                function registerProject(<br>
+                                &nbsp;&nbsp;string memory _name,<br>
+                                &nbsp;&nbsp;uint256 _area<br>
+                                ) public onlyAdmin {<br>
+                                &nbsp;&nbsp;// Project registration logic<br>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- IPFS Card -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="bg-primary-600 text-white p-4 flex items-center">
+                        <i class="fas fa-database text-2xl mr-3"></i>
+                        <h3 class="text-xl font-semibold">Decentralized Storage: IPFS</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-700 mb-4">Media, verification reports, and raw datasets stored off-chain with blockchain-stored CIDs.</p>
+                        <ul class="list-disc pl-5 text-gray-600 mb-4">
+                            <li>Content-addressed storage for permanence</li>
+                            <li>Reduces on-chain gas costs</li>
+                            <li>IPFS Cluster for pinning reliability</li>
+                            <li>Production: multiple pinning services</li>
+                        </ul>
+                        <div class="bg-gray-100 p-4 rounded-lg mt-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                $ ipfs add report.pdf<br>
+                                added QmXoypizjW3W... report.pdf<br>
+                                CID: QmXoypizjW3W...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Frontend Card -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="bg-primary-600 text-white p-4 flex items-center">
+                        <i class="fas fa-desktop text-2xl mr-3"></i>
+                        <h3 class="text-xl font-semibold">Frontend: React + Tailwind</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-700 mb-4">Admin dashboard and public registry explorer with responsive design.</p>
+                        <ul class="list-disc pl-5 text-gray-600 mb-4">
+                            <li>Tailwind for rapid, accessible UI development</li>
+                            <li>React for state management and interactions</li>
+                            <li>Web3 integration for blockchain interactions</li>
+                            <li>Responsive design for all devices</li>
+                        </ul>
+                        <div class="bg-gray-100 p-4 rounded-lg mt-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                const [projects, setProjects] = useState([]);<br>
+                                useEffect(() => {<br>
+                                &nbsp;&nbsp;loadProjects();<br>
+                                }, []);
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Card -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="bg-primary-600 text-white p-4 flex items-center">
+                        <i class="fas fa-mobile-alt text-2xl mr-3"></i>
+                        <h3 class="text-xl font-semibold">Mobile: Flutter</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-700 mb-4">Field app for offline capture, geo-tagging, and later synchronization.</p>
+                        <ul class="list-disc pl-5 text-gray-600 mb-4">
+                            <li>Cross-platform (iOS & Android)</li>
+                            <li>Offline-first functionality</li>
+                            <li>GPS and camera integration</li>
+                            <li>Secure local storage</li>
+                        </ul>
+                        <div class="bg-gray-100 p-4 rounded-lg mt-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                Future&lt;void> syncData() async {<br>
+                                &nbsp;&nbsp;await Connectivity()<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;.checkConnectivity();<br>
+                                &nbsp;&nbsp;// Sync logic<br>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Backend Card -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="bg-primary-600 text-white p-4 flex items-center">
+                        <i class="fas fa-server text-2xl mr-3"></i>
+                        <h3 class="text-xl font-semibold">Backend: Node.js / Express</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-700 mb-4">Middleware that verifies uploads, pins to IPFS, and signs records for on-chain registration.</p>
+                        <ul class="list-disc pl-5 text-gray-600 mb-4">
+                            <li>RESTful API design</li>
+                            <li>IPFS pinning service integration</li>
+                            <li>Preliminary carbon estimation algorithms</li>
+                            <li>JWT authentication</li>
+                        </ul>
+                        <div class="bg-gray-100 p-4 rounded-lg mt-4">
+                            <p class="text-sm font-mono text-gray-700">
+                                app.post('/api/upload',<br>
+                                &nbsp;&nbsp;auth,<br>
+                                &nbsp;&nbsp;async (req, res) => {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;// Handle file upload<br>
+                                &nbsp;&nbsp;}<br>
+                                );
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Architecture Diagram -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-semibold mb-8 text-center">System Architecture</h2>
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="architecture-diagram relative overflow-auto py-8">
+                    <!-- Simplified architecture visualization -->
+                    <div class="flex flex-col items-center space-y-8 min-w-max">
+                        <!-- Row 1: Data Sources -->
+                        <div class="flex space-x-8">
+                            <div class="architecture-node bg-secondary-100 border-2 border-secondary-400 rounded-lg p-4 flex flex-col items-center cursor-pointer" onclick="showModal('fieldAppModal')">
+                                <i class="fas fa-mobile-alt text-2xl text-secondary-700 mb-2"></i>
+                                <span class="text-sm font-medium">Field App</span>
+                            </div>
+                            <div class="architecture-node bg-secondary-100 border-2 border-secondary-400 rounded-lg p-4 flex flex-col items-center cursor-pointer" onclick="showModal('dronesModal')">
+                                <i class="fas fa-drone text-2xl text-secondary-700 mb-2"></i>
+                                <span class="text-sm font-medium">Drones & Sensors</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Arrow down -->
+                        <div class="text-primary-600">
+                            <i class="fas fa-arrow-down text-2xl"></i>
+                        </div>
+                        
+                        <!-- Row 2: Backend -->
+                        <div class="flex space-x-8">
+                            <div class="architecture-node bg-primary-100 border-2 border-primary-400 rounded-lg p-4 flex flex-col items-center cursor-pointer" onclick="showModal('backendModal')">
+                                <i class="fas fa-server text-2xl text-primary-700 mb-2"></i>
+                                <span class="text-sm font-medium">Backend API</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Arrow down -->
+                        <div class="text-primary-600">
+                            <i class="fas fa-arrow-down text-2xl"></i>
+                        </div>
+                        
+                        <!-- Row 3: Storage -->
+                        <div class="flex space-x-8">
+                            <div class="architecture-node bg-primary-100 border-2 border-primary-400 rounded-lg p-4 flex flex-col items-center cursor-pointer" onclick="showModal('ipfsModal')">
+                                <i class="fas fa-database text-2xl text-primary-700 mb-2"></i>
+                                <span class="text-sm font-medium">IPFS Storage</span>
+                            </div>
+                            <div class="architecture-node bg-primary-100 border-2 border-primary-400 rounded-lg p-4 flex flex-col items-center cursor-pointer" onclick="showModal('dbModal')">
+                                <i class="fas fa-hdd text-2xl text-primary-700 mb-2"></i>
+                                <span class="text-sm font-medium">Database</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Arrow down -->
+                        <div class="text-primary-600">
+                            <i class="fas fa-arrow-down text-2xl"></i>
+                        </div>
+                        
+                        <!-- Row 4: Blockchain -->
+                        <div class="flex space-x-8">
+                            <div class="architecture-node bg-primary-100 border-2 border-primary-400 rounded-lg p-4 flex flex-col items-center cursor-pointer" onclick="showModal('blockchainModal')">
+                                <i class="fas fa-link text-2xl text-primary-700 mb-2"></i>
+                                <span class="text-sm font-medium">Blockchain</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Arrow down -->
+                        <div class="text-primary-600">
+                            <i class="fas fa-arrow-down text-2xl"></i>
+                        </div>
+                        
+                        <!-- Row 5: Frontend -->
+                        <div class="flex space-x-8">
+                            <div class="architecture-node bg-secondary-100 border-2 border-secondary-400 rounded-lg p-4 flex flex-col items-center cursor-pointer" onclick="showModal('dashboardModal')">
+                                <i class="fas fa-tachometer-alt text-2xl text-secondary-700 mb-2"></i>
+                                <span class="text-sm font-medium">Dashboard</span>
+                            </div>
+                            <div class="architecture-node bg-secondary-100 border-2 border-secondary-400 rounded-lg p-4 flex flex-col items-center cursor-pointer" onclick="showModal('marketplaceModal')">
+                                <i class="fas fa-store text-2xl text-secondary-700 mb-2"></i>
+                                <span class="text-sm font-medium">Marketplace</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-center text-gray-600 mt-6">Click on any component to learn more about its role in the system</p>
+            </div>
+        </section>
+
+        <!-- Code Snippets Section -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-semibold mb-8 text-center">Code Examples</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Solidity Snippet -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="bg-gray-800 text-white p-4 flex justify-between items-center">
+                        <div class="flex items-center">
+                            <i class="fab fa-ethereum text-xl mr-2"></i>
+                            <span class="font-mono">Solidity</span>
+                        </div>
+                        <button class="copy-btn bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" onclick="copyCode('solidityCode')">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="p-4 bg-gray-900 text-gray-200 code-block">
+                        <pre id="solidityCode"><code>function registerRestoration(
+    string memory _cid,
+    uint256 _area,
+    uint256 _carbonEstimate
+) external onlyVerifier returns (uint256) {
+    projectCount++;
+    
+    projects[projectCount] = RestorationProject({
+        id: projectCount,
+        cid: _cid,
+        area: _area,
+        carbonEstimate: _carbonEstimate,
+        registeredAt: block.timestamp,
+        verifiedBy: msg.sender
+    });
+    
+    emit ProjectRegistered(
+        projectCount,
+        _cid,
+        _area,
+        _carbonEstimate,
+        msg.sender
+    );
+    
+    return projectCount;
+}</code></pre>
+                    </div>
+                </div>
+                
+                <!-- JavaScript Snippet -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="bg-yellow-500 text-gray-800 p-4 flex justify-between items-center">
+                        <div class="flex items-center">
+                            <i class="fab fa-js-square text-xl mr-2"></i>
+                            <span class="font-mono">JavaScript</span>
+                        </div>
+                        <button class="copy-btn bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded text-sm" onclick="copyCode('jsCode')">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="p-4 bg-gray-900 text-gray-200 code-block">
+                        <pre id="jsCode"><code>// Store data with IPFS and record on blockchain
+async function registerProject(projectData) {
+    try {
+        // Add to IPFS
+        const cid = await ipfs.add(JSON.stringify(projectData));
+        
+        // Store reference on blockchain
+        const tx = await contract.registerRestoration(
+            cid.path,
+            projectData.area,
+            projectData.carbonEstimate
+        );
+        
+        // Wait for transaction confirmation
+        const receipt = await tx.wait();
+        
+        return {
+            success: true,
+            cid: cid.path,
+            txHash: receipt.transactionHash
+        };
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message
+        };
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prototype vs Production Note -->
+        <section class="mb-16">
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-exclamation-circle text-yellow-400 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-lg font-semibold text-yellow-800">Prototype vs. Production Note</h3>
+                        <div class="mt-2 text-yellow-700">
+                            <p>This demonstration uses simulated data and localStorage for demonstration purposes. In a production environment:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>IPFS would be used for decentralized storage instead of browser localStorage</li>
+                                <li>Polygon mainnet or a secure L2 would be used instead of simulated transactions</li>
+                                <li>All data would be immutable and permanently stored</li>
+                                <li>Smart contracts would be audited and deployed with proper security measures</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Toggle switch for prototype/production view -->
+            <div class="flex items-center justify-center mt-6">
+                <span class="mr-3 text-gray-700">Prototype View</span>
+                <label for="toggle" class="flex items-center cursor-pointer">
+                    <div class="relative">
+                        <input type="checkbox" id="toggle" class="sr-only" onchange="toggleView()">
+                        <div class="block bg-gray-300 w-14 h-8 rounded-full"></div>
+                        <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform"></div>
+                    </div>
+                </label>
+                <span class="ml-3 text-gray-700">Production View</span>
+            </div>
+        </section>
+
+        <!-- Security & Compliance Section -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-semibold mb-6 text-center">Security & Compliance</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-4 flex items-center">
+                        <i class="fas fa-shield-alt mr-2"></i> Security Measures
+                    </h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                        <li>Smart contract audit by third-party security firms</li>
+                        <li>Multi-signature wallets for administrative actions</li>
+                        <li>Role-based access control for all system components</li>
+                        <li>Pausable contracts for emergency scenarios</li>
+                        <li>Upgradeable contract patterns for future improvements</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-primary-700 mb-4 flex items-center">
+                        <i class="fas fa-file-contract mr-2"></i> Compliance Features
+                    </h3>
+                    <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                        <li>KYC/AML integration for participant verification</li>
+                        <li>GDPR-compliant data handling procedures</li>
+                        <li>Transparent audit trails for all transactions</li>
+                        <li>Verification standards based on established methodologies</li>
+                        <li>Carbon credit calculation transparency</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-semibold mb-8 text-center">Frequently Asked Questions</h2>
+            
+            <div class="space-y-6 max-w-3xl mx-auto">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="w-full p-6 text-left flex justify-between items-center" onclick="toggleFAQ('faq1')">
+                        <span class="text-lg font-medium text-gray-800">How is data immutability achieved in the system?</span>
+                        <i class="fas fa-chevron-down text-primary-600"></i>
+                    </button>
+                    <div id="faq1" class="px-6 pb-6 hidden">
+                        <p class="text-gray-700">Data immutability is achieved through a combination of blockchain anchoring and decentralized storage. All critical records are stored on IPFS with their content identifiers (CIDs) written to the Polygon blockchain. Once recorded, these CIDs cannot be altered, ensuring the permanence and verifiability of the stored data.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="w-full p-6 text-left flex justify-between items-center" onclick="toggleFAQ('faq2')">
+                        <span class="text-lg font-medium text-gray-800">What happens if data is deleted in the prototype version?</span>
+                        <i class="fas fa-chevron-down text-primary-600"></i>
+                    </button>
+                    <div id="faq2" class="px-6 pb-6 hidden">
+                        <p class="text-gray-700">The prototype uses browser localStorage for demonstration purposes, which can be cleared. In the production system, data would be stored on IPFS with multiple pinning services ensuring persistence. Once added to IPFS and recorded on blockchain, data becomes immutable and permanent through content addressing and cryptographic hashing.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="w-full p-6 text-left flex justify-between items-center" onclick="toggleFAQ('faq3')">
+                        <span class="text-lg font-medium text-gray-800">How does the system scale to handle large datasets from drones?</span>
+                        <i class="fas fa-chevron-down text-primary-600"></i>
+                    </button>
+                    <div id="faq3" class="px-6 pb-6 hidden">
+                        <p class="text-gray-700">The system utilizes a hybrid approach where large datasets (like drone imagery) are stored on IPFS, while only the essential metadata and content identifiers are stored on-chain. This approach minimizes gas costs while maintaining data integrity. For processing, we use off-chain computation with oracle services to handle resource-intensive analytics.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <button class="w-full p-6 text-left flex justify-between items-center" onclick="toggleFAQ('faq4')">
+                        <span class="text-lg font-medium text-gray-800">How are carbon credits calculated and verified?</span>
+                        <i class="fas fa-chevron-down text-primary-600"></i>
+                    </button>
+                    <div id="faq4" class="px-6 pb-6 hidden">
+                        <p class="text-gray-700">Carbon credits are calculated using established methodologies (e.g., VCS, CDM) based on field measurements, remote sensing data, and biome-specific models. Verification is performed by accredited third parties whose signed-off reports are stored on IPFS with their hashes recorded on-chain. This creates a transparent and auditable record of the verification process.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-2">Blue Carbon Chain</h3>
+                    <p class="text-gray-400">Transparent MRV for Coastal Ecosystem Restoration</p>
+                </div>
+                
+                <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-4">
+                    <button onclick="window.print()" class="bg-primary-600 hover:bg-primary-700 px-6 py-3 rounded-lg font-medium flex items-center justify-center">
+                        <i class="fas fa-file-download mr-2"></i> Download One-page PDF
+                    </button>
+                    <a href="#" class="bg-transparent border border-white hover:bg-white hover:text-gray-800 px-6 py-3 rounded-lg font-medium flex items-center justify-center">
+                        <i class="fas fa-external-link-alt mr-2"></i> View Prototype
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>Team TerraNova • contact@terranova.example • hackathon@example.com</p>
+                <p class="mt-2 text-sm">Icons and logos used for demo purposes only. Blue Carbon Chain is a demonstration project.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Architecture Modals -->
+    <div id="fieldAppModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold mb-4">Field Application</h3>
+                <p class="text-gray-700 mb-4">The mobile field app allows restoration teams to collect data offline, including geotagged photos, measurements, and observations. Data is synced when connectivity is available.</p>
+                <p class="text-gray-700">Built with Flutter for cross-platform compatibility and offline-first functionality.</p>
+            </div>
+            <div class="bg-gray-100 px-6 py-3 flex justify-end">
+                <button onclick="closeModal('fieldAppModal')" class="text-primary-600 font-medium">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="dronesModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold mb-4">Drones & Sensors</h3>
+                <p class="text-gray-700 mb-4">Drones equipped with multispectral sensors capture high-resolution imagery for NDVI analysis and biomass estimation. IoT sensors monitor soil conditions and water quality.</p>
+                <p class="text-gray-700">Data is processed off-chain and stored on IPFS with hashes recorded on blockchain.</p>
+            </div>
+            <div class="bg-gray-100 px-6 py-3 flex justify-end">
+                <button onclick="closeModal('dronesModal')" class="text-primary-600 font-medium">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional modals would be defined here for each architecture component -->
+
+    <script>
+        // Toggle FAQ items
+        function toggleFAQ(id) {
+            const faq = document.getElementById(id);
+            faq.classList.toggle('hidden');
+            
+            const button = faq.previousElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (faq.classList.contains('hidden')) {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+        
+        // Show modal
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('hidden');
+        }
+        
+        // Close modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('hidden');
+        }
+        
+        // Copy code to clipboard
+        function copyCode(codeId) {
+            const codeElement = document.getElementById(codeId);
+            const text = codeElement.textContent;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target;
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+        
+        // Toggle prototype/production view
+        function toggleView() {
+            const toggle = document.getElementById('toggle');
+            const isProduction = toggle.checked;
+            
+            // This would update text throughout the page in a real implementation
+            console.log(`View changed to: ${isProduction ? 'Production' : 'Prototype'}`);
+            alert(`View changed to: ${isProduction ? 'Production' : 'Prototype'}. In a full implementation, this would update explanatory text throughout the page.`);
+        }
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('fixed')) {
+                const modals = document.querySelectorAll('.fixed');
+                modals.forEach(modal => {
+                    modal.classList.add('hidden');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
