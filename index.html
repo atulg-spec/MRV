@@ -141,7 +141,7 @@
         <div class="flex flex-col lg:flex-row gap-6">
             <!-- Left Section: New Record Form -->
             <section class="w-full lg:w-1/2 bg-white rounded-lg shadow p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">New Restoration Record</h2>
+                <h2 class="text-xl font-semibold text-gray-800 mb-4" onclick="fillForm()">New Restoration Record</h2>
 
                 <form id="recordForm" class="space-y-4">
                     <div>
@@ -1231,6 +1231,16 @@
         window.mintCredits = mintCredits;
         window.deleteRecord = deleteRecord;
         window.exportRecord = exportRecord;
+    </script>
+    <script>
+        function fillForm() {
+            document.getElementById('projectName').value = "Mangrove Revival at Sundarbans – Phase 1";
+            document.getElementById('orgName').value = "Sundarbans Eco NGO";
+            document.getElementById('latitude').value = 21.9497;
+            document.getElementById('longitude').value = 88.7814;
+            document.getElementById('species').value = 'Avicennia';
+            document.getElementById('seedlingCount').value = 1200;
+        }
     </script>
 </body>
 

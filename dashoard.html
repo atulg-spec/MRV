@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain-Based Blue Carbon Registry and MRV System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        .sidebar-item.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg">
+            <div class="p-6 border-b">
+                <h1 class="text-lg font-semibold text-gray-800">Blue Carbon MRV</h1>
+            </div>
+            <nav class="mt-6">
+                <a href="#"
+                    class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 transition-colors"
+                    onclick="showPage('dashboard'); return false;">
+                    <span class="mr-3">📊</span>
+                    Dashboard
+                </a>
+                <a href="#"
+                    class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 transition-colors"
+                    onclick="showPage('onboarding'); return false;">
+                    <span class="mr-3">🏢</span>
+                    NGO/Community Onboarding
+                </a>
+                <a href="#"
+                    class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 transition-colors"
+                    onclick="showPage('restoration'); return false;">
+                    <span class="mr-3">🌱</span>
+                    Restoration Records
+                </a>
+                <a href="#"
+                    class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 transition-colors"
+                    onclick="showPage('credits'); return false;">
+                    <span class="mr-3">🪙</span>
+                    Tokenized Credits
+                </a>
+                <a href="#"
+                    class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 transition-colors"
+                    onclick="showPage('reports'); return false;">
+                    <span class="mr-3">📈</span>
+                    Reports & Analytics
+                </a>
+                <a href="#"
+                    class="sidebar-item flex items-center px-6 py-3 text-gray-700 hover:bg-blue-50 transition-colors"
+                    onclick="showPage('settings'); return false;">
+                    <span class="mr-3">⚙️</span>
+                    Settings
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Top Bar -->
+            <header class="bg-white shadow-sm border-b p-4">
+                <div class="flex justify-between items-center">
+                    <h2 id="page-title" class="text-2xl font-bold text-gray-800">Dashboard</h2>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-600">User Role: <span class="font-medium text-blue-600">Admin –
+                                NCCR</span></span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <main class="flex-1 p-6 overflow-auto">
+                <!-- Dashboard Page -->
+                <div id="dashboard" class="page-content active">
+                    <!-- How it works section -->
+                    <div class="mb-6 bg-white rounded-lg shadow p-4">
+                        <div id="howItWorksSection" class="bg-white rounded-lg p-6 mb-6">
+                            <h3 class="text-xl font-semibold mb-4">Blue Carbon MRV Flow</h3>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <div class="text-center">
+                                    <div
+                                        class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                                        1</div>
+                                    <h4 class="font-semibold">Monitor</h4>
+                                    <p class="text-sm text-gray-600">Record restoration activities with photos and GPS
+                                        data</p>
+                                </div>
+                                <div class="text-center">
+                                    <div
+                                        class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                                        2</div>
+                                    <h4 class="font-semibold">Verify</h4>
+                                    <p class="text-sm text-gray-600">Third-party verification of restoration data and
+                                        carbon
+                                        estimates</p>
+                                </div>
+                                <div class="text-center">
+                                    <div
+                                        class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2">
+                                        3</div>
+                                    <h4 class="font-semibold">Credit</h4>
+                                    <p class="text-sm text-gray-600">Mint tradeable carbon credits as blockchain tokens
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">Total Verified Plantations</p>
+                                    <p id="total-plantations" class="text-3xl font-bold text-green-600">0</p>
+                                </div>
+                                <div class="bg-green-100 p-3 rounded-full">
+                                    <span class="text-green-600 text-xl">🌲</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">Active NGOs/Communities</p>
+                                    <p id="active-ngos" class="text-3xl font-bold text-blue-600">0</p>
+                                </div>
+                                <div class="bg-blue-100 p-3 rounded-full">
+                                    <span class="text-blue-600 text-xl">🏢</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">Total Carbon Credits Minted</p>
+                                    <p id="credits-minted" class="text-3xl font-bold text-purple-600">0</p>
+                                </div>
+                                <div class="bg-purple-100 p-3 rounded-full">
+                                    <span class="text-purple-600 text-xl">🪙</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600">Credits Retired</p>
+                                    <p id="credits-retired" class="text-3xl font-bold text-orange-600">0</p>
+                                </div>
+                                <div class="bg-orange-100 p-3 rounded-full">
+                                    <span class="text-orange-600 text-xl">♻️</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Recent Activities</h3>
+                            <div id="recent-activities" class="space-y-3">
+                                <p class="text-gray-600">No recent activities</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">System Status</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Blockchain Network</span>
+                                    <span
+                                        class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">Online</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">MRV System</span>
+                                    <span
+                                        class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">Active</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Last Sync</span>
+                                    <span class="text-gray-800">Just now</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NGO/Community Onboarding Page -->
+                <div id="onboarding" class="page-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Add New NGO/Community</h3>
+                            <form id="ngo-form" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                                    <input type="text" id="ngo-name"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                                    <input type="text" id="ngo-location"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
+                                    <input type="text" id="ngo-contact"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <input type="email" id="ngo-email"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required>
+                                </div>
+                                <button type="submit"
+                                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">Add
+                                    NGO/Community</button>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Registered NGOs/Communities</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="border-b">
+                                            <th class="text-left py-2">Name</th>
+                                            <th class="text-left py-2">Status</th>
+                                            <th class="text-left py-2">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ngos-table">
+                                        <tr>
+                                            <td colspan="3" class="text-center py-4 text-gray-600">No NGOs registered
+                                                yet</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restoration Records Page -->
+                <div id="restoration" class="page-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Upload New Restoration Record</h3>
+                            <form id="restoration-form" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Project ID</label>
+                                    <input type="text" id="project-id"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">NGO Name</label>
+                                    <select id="project-ngo"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required>
+                                        <option value="">Select NGO</option>
+                                    </select>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Latitude</label>
+                                        <input type="number" step="any" id="project-lat"
+                                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Longitude</label>
+                                        <input type="number" step="any" id="project-lng"
+                                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Plantation Area
+                                        (hectares)</label>
+                                    <input type="number" step="any" id="project-area"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Evidence (Image/Drone
+                                        Data)</label>
+                                    <input type="file" id="project-evidence"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        accept="image/*">
+                                </div>
+                                <button type="submit"
+                                    class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors">Submit
+                                    Restoration Record</button>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Restoration Projects</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="border-b">
+                                            <th class="text-left py-2">Project ID</th>
+                                            <th class="text-left py-2">NGO</th>
+                                            <th class="text-left py-2">Area (ha)</th>
+                                            <th class="text-left py-2">Status</th>
+                                            <th class="text-left py-2">Blockchain Hash</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="projects-table">
+                                        <tr>
+                                            <td colspan="5" class="text-center py-4 text-gray-600">No restoration
+                                                projects yet</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tokenized Credits Page -->
+                <div id="credits" class="page-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Mint New Credits</h3>
+                            <form id="credits-form" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Select Verified
+                                        Project</label>
+                                    <select id="credit-project"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required>
+                                        <option value="">Select Project</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Credit Quantity (tons
+                                        CO2)</label>
+                                    <input type="number" id="credit-quantity"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required>
+                                </div>
+                                <button type="submit"
+                                    class="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition-colors">Mint
+                                    Credits</button>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Credit Statistics</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Total Credits Minted</span>
+                                    <span id="stats-minted" class="font-semibold">0 tons</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Active Credits</span>
+                                    <span id="stats-active" class="font-semibold text-green-600">0 tons</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">Retired Credits</span>
+                                    <span id="stats-retired" class="font-semibold text-red-600">0 tons</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h3 class="text-lg font-semibold mb-4">Minted Credits</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b">
+                                        <th class="text-left py-2">Token ID</th>
+                                        <th class="text-left py-2">Project</th>
+                                        <th class="text-left py-2">Owner (NGO)</th>
+                                        <th class="text-left py-2">Credits Available</th>
+                                        <th class="text-left py-2">Status</th>
+                                        <th class="text-left py-2">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="credits-table">
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4 text-gray-600">No credits minted yet
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports & Analytics Page -->
+                <div id="reports" class="page-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Credit Distribution</h3>
+                            <canvas id="creditDistributionChart" width="400" height="200"></canvas>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Credits by NGO</h3>
+                            <canvas id="creditsByNgoChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold">Export Reports</h3>
+                            <div class="space-x-2">
+                                <button onclick="exportReport('csv')"
+                                    class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors">Export
+                                    CSV</button>
+                                <button onclick="exportReport('pdf')"
+                                    class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">Export
+                                    PDF</button>
+                            </div>
+                        </div>
+                        <div class="border rounded-md p-4 bg-gray-50">
+                            <p class="text-gray-600">Export functionality will generate comprehensive reports including:
+                            </p>
+                            <ul class="list-disc list-inside mt-2 text-sm text-gray-600">
+                                <li>NGO registration and verification status</li>
+                                <li>Restoration project details and verification</li>
+                                <li>Carbon credit minting and retirement records</li>
+                                <li>Blockchain transaction hashes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Page -->
+                <div id="settings" class="page-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Admin Profile (NCCR)</h3>
+                            <form class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Organization
+                                        Name</label>
+                                    <input type="text" value="National Coastal Carbon Registry"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        readonly>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Admin Email</label>
+                                    <input type="email" value="admin@nccr.gov"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Registry ID</label>
+                                    <input type="text" value="NCCR-2024-001"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        readonly>
+                                </div>
+                                <button type="button"
+                                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Update
+                                    Profile</button>
+                            </form>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-semibold mb-4">Blockchain Configuration</h3>
+                            <form class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Blockchain
+                                        Network</label>
+                                    <select
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option>Ethereum Mainnet</option>
+                                        <option>Polygon</option>
+                                        <option>Binance Smart Chain</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">API Key</label>
+                                    <input type="password" value="sk_live_************************"
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Smart Contract
+                                        Address</label>
+                                    <input type="text" value="0x742d35Cc9Bf56789...."
+                                        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button type="button"
+                                        class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors">Test
+                                        Connection</button>
+                                    <button type="button"
+                                        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Save
+                                        Configuration</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Global data storage
+        let ngos = [];
+        let projects = [];
+        let credits = [];
+        let activities = [];
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Remove active class from all sidebar items
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Add active class to clicked sidebar item
+            event.target.closest('.sidebar-item').classList.add('active');
+
+            // Update page title
+            const titles = {
+                'dashboard': 'Dashboard',
+                'onboarding': 'NGO/Community Onboarding',
+                'restoration': 'Restoration Records',
+                'credits': 'Tokenized Credits',
+                'reports': 'Reports & Analytics',
+                'settings': 'Settings'
+            };
+            document.getElementById('page-title').textContent = titles[pageId];
+
+            // Initialize charts if reports page
+            if (pageId === 'reports') {
+                initializeCharts();
+            }
+        }
+
+        // Blockchain simulation functions
+        function generateBlockchainHash() {
+            const chars = '0123456789abcdef';
+            let hash = '0x';
+            for (let i = 0; i < 64; i++) {
+                hash += chars[Math.floor(Math.random() * chars.length)];
+            }
+            return hash;
+        }
+
+        function generateTokenId() {
+            return 'BCT-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+        }
+
+        // Validation helper functions
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function isValidCoordinate(lat, lng) {
+            return lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
+        }
+
+        // NGO Management
+        document.getElementById('ngo-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('ngo-name').value.trim();
+            const location = document.getElementById('ngo-location').value.trim();
+            const contact = document.getElementById('ngo-contact').value.trim();
+            const email = document.getElementById('ngo-email').value.trim();
+
+            // Validation
+            if (!name || !location || !contact || !email) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            // Check for duplicate NGO names
+            if (ngos.some(ngo => ngo.name.toLowerCase() === name.toLowerCase())) {
+                alert('An NGO with this name already exists.');
+                return;
+            }
+
+            const ngo = {
+                id: Date.now(),
+                name: name,
+                location: location,
+                contact: contact,
+                email: email,
+                status: 'Pending',
+                dateAdded: new Date().toLocaleDateString()
+            };
+
+            ngos.push(ngo);
+            updateNGOTable();
+            updateNGOSelect();
+            updateDashboard();
+            addActivity(`New NGO registered: ${ngo.name}`);
+
+            // Reset form
+            this.reset();
+            alert(`NGO "${name}" has been successfully registered and is pending verification.`);
+        });
+
+        function updateNGOTable() {
+            const tbody = document.getElementById('ngos-table');
+
+            if (ngos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center py-4 text-gray-600">No NGOs registered yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = ngos.map(ngo => `
+                <tr class="border-b">
+                    <td class="py-2">
+                        <div>
+                            <div class="font-medium">${ngo.name}</div>
+                            <div class="text-sm text-gray-600">${ngo.location}</div>
+                        </div>
+                    </td>
+                    <td class="py-2">
+                        <span class="px-2 py-1 rounded-full text-sm ${ngo.status === 'Verified' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                            ${ngo.status}
+                        </span>
+                    </td>
+                    <td class="py-2">
+                        <div class="space-x-2">
+                            ${ngo.status === 'Pending' ? `
+                                <button onclick="verifyNGO(${ngo.id})" class="text-green-600 hover:text-green-800 text-sm">Verify</button>
+                                <button onclick="rejectNGO(${ngo.id})" class="text-red-600 hover:text-red-800 text-sm">Reject</button>
+                            ` : ''}
+                            <button onclick="removeNGO(${ngo.id})" class="text-red-600 hover:text-red-800 text-sm">Remove</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateNGOSelect() {
+            const select = document.getElementById('project-ngo');
+            const verifiedNGOs = ngos.filter(ngo => ngo.status === 'Verified');
+
+            select.innerHTML = '<option value="">Select NGO</option>' +
+                verifiedNGOs.map(ngo => `<option value="${ngo.id}">${ngo.name}</option>`).join('');
+        }
+
+        function verifyNGO(id) {
+            const ngo = ngos.find(n => n.id === id);
+            if (ngo) {
+                ngo.status = 'Verified';
+                updateNGOTable();
+                updateNGOSelect();
+                updateDashboard();
+                addActivity(`NGO verified: ${ngo.name}`);
+            }
+        }
+
+        function rejectNGO(id) {
+            const ngo = ngos.find(n => n.id === id);
+            if (ngo) {
+                ngo.status = 'Rejected';
+                updateNGOTable();
+                updateDashboard();
+                addActivity(`NGO rejected: ${ngo.name}`);
+            }
+        }
+
+        function removeNGO(id) {
+            const ngo = ngos.find(n => n.id === id);
+            if (ngo && confirm(`Are you sure you want to remove ${ngo.name}?`)) {
+                ngos = ngos.filter(n => n.id !== id);
+                updateNGOTable();
+                updateNGOSelect();
+                updateDashboard();
+                addActivity(`NGO removed: ${ngo.name}`);
+            }
+        }
+
+        // Restoration Records Management
+        document.getElementById('restoration-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const projectId = document.getElementById('project-id').value.trim();
+            const ngoId = parseInt(document.getElementById('project-ngo').value);
+            const latitude = parseFloat(document.getElementById('project-lat').value);
+            const longitude = parseFloat(document.getElementById('project-lng').value);
+            const area = parseFloat(document.getElementById('project-area').value);
+
+            // Validation
+            if (!projectId) {
+                alert('Please enter a Project ID.');
+                return;
+            }
+
+            if (!ngoId || isNaN(ngoId)) {
+                alert('Please select an NGO.');
+                return;
+            }
+
+            if (!isValidCoordinate(latitude, longitude)) {
+                alert('Please enter valid coordinates (Latitude: -90 to 90, Longitude: -180 to 180).');
+                return;
+            }
+
+            if (!area || area <= 0) {
+                alert('Please enter a valid plantation area greater than 0.');
+                return;
+            }
+
+            // Check for duplicate project IDs
+            if (projects.some(p => p.projectId.toLowerCase() === projectId.toLowerCase())) {
+                alert('A project with this ID already exists.');
+                return;
+            }
+
+            const ngo = ngos.find(n => n.id === ngoId);
+
+            const project = {
+                id: Date.now(),
+                projectId: projectId,
+                ngoId: ngoId,
+                ngoName: ngo.name,
+                latitude: latitude,
+                longitude: longitude,
+                area: area,
+                status: 'Under Review',
+                blockchainHash: generateBlockchainHash(),
+                dateSubmitted: new Date().toLocaleDateString(),
+                verified: false
+            };
+
+            projects.push(project);
+            updateProjectsTable();
+            updateProjectSelect();
+            updateDashboard();
+            addActivity(`New restoration project submitted: ${project.projectId}`);
+
+            // Reset form
+            this.reset();
+            alert(`Restoration project "${projectId}" has been successfully submitted and is under review.`);
+        });
+
+        function updateProjectsTable() {
+            const tbody = document.getElementById('projects-table');
+
+            if (projects.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-gray-600">No restoration projects yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = projects.map(project => `
+                <tr class="border-b">
+                    <td class="py-2 font-medium">${project.projectId}</td>
+                    <td class="py-2">${project.ngoName}</td>
+                    <td class="py-2">${project.area} ha</td>
+                    <td class="py-2">
+                        <span class="px-2 py-1 rounded-full text-sm ${project.status === 'Verified' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                            ${project.status}
+                        </span>
+                    </td>
+                    <td class="py-2">
+                        <span class="text-xs font-mono text-gray-600">${project.blockchainHash.substring(0, 20)}...</span>
+                        ${project.status === 'Under Review' ? `
+                            <button onclick="verifyProject(${project.id})" class="ml-2 text-green-600 hover:text-green-800 text-sm">Verify</button>
+                        ` : ''}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateProjectSelect() {
+            const select = document.getElementById('credit-project');
+            const verifiedProjects = projects.filter(project => project.verified);
+
+            select.innerHTML = '<option value="">Select Project</option>' +
+                verifiedProjects.map(project => `<option value="${project.id}">${project.projectId} - ${project.ngoName}</option>`).join('');
+        }
+
+        function verifyProject(id) {
+            const project = projects.find(p => p.id === id);
+            if (project) {
+                project.status = 'Verified';
+                project.verified = true;
+                updateProjectsTable();
+                updateProjectSelect();
+                updateDashboard();
+                addActivity(`Restoration project verified: ${project.projectId}`);
+            }
+        }
+
+        // Credits Management
+        document.getElementById('credits-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const projectId = parseInt(document.getElementById('credit-project').value);
+            const quantity = parseInt(document.getElementById('credit-quantity').value);
+
+            // Validation
+            if (!projectId || isNaN(projectId)) {
+                alert('Please select a verified project.');
+                return;
+            }
+
+            if (!quantity || quantity <= 0) {
+                alert('Please enter a valid credit quantity greater than 0.');
+                return;
+            }
+
+            const project = projects.find(p => p.id === projectId);
+            if (!project) {
+                alert('Selected project not found.');
+                return;
+            }
+
+            const credit = {
+                id: Date.now(),
+                tokenId: generateTokenId(),
+                projectId: project.id,
+                projectName: project.projectId,
+                ngoName: project.ngoName,
+                quantity: quantity,
+                status: 'Active',
+                dateMinted: new Date().toLocaleDateString(),
+                blockchainHash: generateBlockchainHash()
+            };
+
+            credits.push(credit);
+            updateCreditsTable();
+            updateCreditStats();
+            updateDashboard();
+            addActivity(`Carbon credits minted: ${credit.tokenId} (${quantity} tons)`);
+
+            // Reset form
+            this.reset();
+            alert(`Successfully minted ${quantity} carbon credits with Token ID: ${credit.tokenId}`);
+        });
+
+        function updateCreditsTable() {
+            const tbody = document.getElementById('credits-table');
+
+            if (credits.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-gray-600">No credits minted yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = credits.map(credit => `
+                <tr class="border-b">
+                    <td class="py-2 font-mono text-sm">${credit.tokenId}</td>
+                    <td class="py-2">${credit.projectName}</td>
+                    <td class="py-2">${credit.ngoName}</td>
+                    <td class="py-2">${credit.quantity} tons</td>
+                    <td class="py-2">
+                        <span class="px-2 py-1 rounded-full text-sm ${credit.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                            ${credit.status}
+                        </span>
+                    </td>
+                    <td class="py-2">
+                        ${credit.status === 'Active' ? `
+                            <button onclick="retireCredit(${credit.id})" class="text-red-600 hover:text-red-800 text-sm">Retire</button>
+                        ` : 'Retired'}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateCreditStats() {
+            const totalMinted = credits.reduce((sum, credit) => sum + credit.quantity, 0);
+            const activeCredits = credits.filter(c => c.status === 'Active').reduce((sum, credit) => sum + credit.quantity, 0);
+            const retiredCredits = credits.filter(c => c.status === 'Retired').reduce((sum, credit) => sum + credit.quantity, 0);
+
+            document.getElementById('stats-minted').textContent = `${totalMinted} tons`;
+            document.getElementById('stats-active').textContent = `${activeCredits} tons`;
+            document.getElementById('stats-retired').textContent = `${retiredCredits} tons`;
+        }
+
+        function retireCredit(id) {
+            const credit = credits.find(c => c.id === id);
+            if (credit && confirm(`Are you sure you want to retire ${credit.quantity} tons of credits from ${credit.tokenId}?`)) {
+                credit.status = 'Retired';
+                updateCreditsTable();
+                updateCreditStats();
+                updateDashboard();
+                addActivity(`Carbon credits retired: ${credit.tokenId} (${credit.quantity} tons)`);
+            }
+        }
+
+        // Dashboard Updates
+        function updateDashboard() {
+            const verifiedProjects = projects.filter(p => p.verified).length;
+            const activeNGOs = ngos.filter(n => n.status === 'Verified').length;
+            const totalMinted = credits.reduce((sum, credit) => sum + credit.quantity, 0);
+            const retiredCredits = credits.filter(c => c.status === 'Retired').reduce((sum, credit) => sum + credit.quantity, 0);
+
+            document.getElementById('total-plantations').textContent = verifiedProjects;
+            document.getElementById('active-ngos').textContent = activeNGOs;
+            document.getElementById('credits-minted').textContent = totalMinted;
+            document.getElementById('credits-retired').textContent = retiredCredits;
+
+            updateRecentActivities();
+        }
+
+        function addActivity(activity) {
+            activities.unshift({
+                text: activity,
+                time: new Date().toLocaleString()
+            });
+
+            // Keep only last 5 activities
+            if (activities.length > 5) {
+                activities = activities.slice(0, 5);
+            }
+        }
+
+        function updateRecentActivities() {
+            const container = document.getElementById('recent-activities');
+
+            if (activities.length === 0) {
+                container.innerHTML = '<p class="text-gray-600">No recent activities</p>';
+                return;
+            }
+
+            container.innerHTML = activities.map(activity => `
+                <div class="flex justify-between items-start">
+                    <span class="text-sm">${activity.text}</span>
+                    <span class="text-xs text-gray-500">${activity.time}</span>
+                </div>
+            `).join('');
+        }
+
+        // Charts
+        let creditDistributionChart = null;
+        let creditsByNgoChart = null;
+
+        function initializeCharts() {
+            // Destroy existing charts if they exist
+            if (creditDistributionChart) {
+                creditDistributionChart.destroy();
+            }
+            if (creditsByNgoChart) {
+                creditsByNgoChart.destroy();
+            }
+
+            // Credit Distribution Chart
+            const ctx1 = document.getElementById('creditDistributionChart').getContext('2d');
+            const activeCredits = credits.filter(c => c.status === 'Active').reduce((sum, credit) => sum + credit.quantity, 0);
+            const retiredCredits = credits.filter(c => c.status === 'Retired').reduce((sum, credit) => sum + credit.quantity, 0);
+
+            creditDistributionChart = new Chart(ctx1, {
+                type: 'pie',
+                data: {
+                    labels: ['Active Credits', 'Retired Credits'],
+                    datasets: [{
+                        data: [activeCredits || 1, retiredCredits || 1],
+                        backgroundColor: ['#10b981', '#ef4444']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: activeCredits > 0 || retiredCredits > 0
+                        }
+                    }
+                }
+            });
+
+            // Credits by NGO Chart
+            const ctx2 = document.getElementById('creditsByNgoChart').getContext('2d');
+            const creditsByNGO = {};
+            credits.forEach(credit => {
+                if (!creditsByNGO[credit.ngoName]) {
+                    creditsByNGO[credit.ngoName] = 0;
+                }
+                creditsByNGO[credit.ngoName] += credit.quantity;
+            });
+
+            const labels = Object.keys(creditsByNGO);
+            const data = Object.values(creditsByNGO);
+
+            creditsByNgoChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: labels.length > 0 ? labels : ['No Data'],
+                    datasets: [{
+                        label: 'Credits (tons)',
+                        data: data.length > 0 ? data : [0],
+                        backgroundColor: '#3b82f6'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Export functionality
+        function exportReport(format) {
+            const data = {
+                ngos: ngos,
+                projects: projects,
+                credits: credits,
+                timestamp: new Date().toISOString()
+            };
+
+            if (format === 'csv') {
+                const csv = convertToCSV(data);
+                downloadFile(csv, 'blue-carbon-report.csv', 'text/csv');
+            } else if (format === 'pdf') {
+                alert('PDF export functionality would integrate with a PDF generation library in a full implementation.');
+            }
+        }
+
+        function convertToCSV(data) {
+            let csv = 'Blue Carbon Registry Report\n\n';
+
+            csv += 'NGOs/Communities:\n';
+            csv += 'Name,Location,Contact,Email,Status\n';
+            data.ngos.forEach(ngo => {
+                csv += `${ngo.name},${ngo.location},${ngo.contact},${ngo.email},${ngo.status}\n`;
+            });
+
+            csv += '\nRestoration Projects:\n';
+            csv += 'Project ID,NGO,Area (ha),Status,Blockchain Hash\n';
+            data.projects.forEach(project => {
+                csv += `${project.projectId},${project.ngoName},${project.area},${project.status},${project.blockchainHash}\n`;
+            });
+
+            csv += '\nCarbon Credits:\n';
+            csv += 'Token ID,Project,NGO,Quantity (tons),Status\n';
+            data.credits.forEach(credit => {
+                csv += `${credit.tokenId},${credit.projectName},${credit.ngoName},${credit.quantity},${credit.status}\n`;
+            });
+
+            return csv;
+        }
+
+        function downloadFile(content, filename, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            updateDashboard();
+
+            // Set default active sidebar item
+            document.querySelector('.sidebar-item').classList.add('active');
+        });
+    </script>
+</body>
+
+</html>
