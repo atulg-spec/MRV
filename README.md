@@ -2,6 +2,9 @@
 
 This is a Blue Carbon Registry prototype that demonstrates an end-to-end Monitoring, Reporting, and Verification (MRV) system for blue carbon restoration projects. The application simulates the complete workflow from field data collection to carbon credit generation, including verification processes and blockchain-style transaction recording. It's designed as a hackathon demonstration piece showcasing how restoration organizations can digitally track mangrove and coastal ecosystem restoration efforts.
 
+![Prototype Image](https://raw.githubusercontent.com/atulg-spec/MRV/main/static/img/prototype.jpeg)
+
+
 # User Preferences
 
 Preferred communication style: Simple, everyday language.
