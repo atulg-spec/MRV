@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-lg mx-auto bg-white shadow-lg rounded-2xl p-6 mt-6">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">{{ project.title }}</h2>
+
+    <div class="space-y-3">
+        <p><span class="font-semibold">Description:</span> {{ project.description }}</p>
+        <p><span class="font-semibold">Location:</span> {{ project.location }}</p>
+        <p><span class="font-semibold">Coordinates:</span> {{ project.latitude }}, {{ project.longitude }}</p>
+        <p><span class="font-semibold">Species:</span> {{ project.species }}</p>
+        <p><span class="font-semibold">Seedlings:</span> {{ project.seedling_count }}</p>
+        <p><span class="font-semibold">Notes:</span> {{ project.notes }}</p>
+        <p><span class="font-semibold">Status:</span> {{ project.status }}</p>
+    </div>
+
+    <div class="mt-6">
+        <a href="{% url 'projects:project-documents' project.pk %}"
+           class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg">
+            Manage Documents
+        </a>
+    </div>
+</div>
+{% endblock %}

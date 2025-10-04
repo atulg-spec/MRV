@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}All Projects{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-6">🌍 All Projects</h1>
+
+    {% if projects %}
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {% for project in projects %}
+                <div class="bg-white rounded-2xl shadow p-5 border hover:shadow-lg transition">
+                    <h2 class="text-lg font-semibold mb-2">{{ project.title }}</h2>
+                    <p class="text-gray-600 text-sm mb-3">{{ project.description|truncatewords:20 }}</p>
+
+                    <p class="text-xs text-gray-500">
+                        🌱 {{ project.species }} | {{ project.seedling_count }} seedlings
+                    </p>
+                    <p class="text-xs text-gray-500">
+                        📍 {{ project.location }}
+                    </p>
+
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-xs text-gray-400">By {{ project.created_by.username }}</span>
+                        <a href="{% url 'project-detail' project.pk %}" 
+                           class="text-blue-600 hover:underline text-sm">View</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-500">No projects available yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
