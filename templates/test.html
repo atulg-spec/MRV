@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Carbon Registry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ocean': {
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        .mobile-frame {
+            width: 390px;
+            height: 844px;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            position: relative;
+        }
+        .screen {
+            transition: all 0.3s ease-in-out;
+        }
+        .active-screen {
+            display: block;
+        }
+        .inactive-screen {
+            display: none;
+        }
+        .nav-item.active {
+            color: #0284c7;
+        }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-pending {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+        .status-approved {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+        .status-rejected {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #38bdf8, #0284c7);
+            transition: width 0.5s ease-in-out;
+        }
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+            z-index: 50;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .wave-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%230284c7' fill-opacity='0.1' d='M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,192C672,181,768,139,864,138.7C960,139,1056,181,1152,181.3C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+    <div class="mobile-frame bg-white">
+        <!-- Top Navigation -->
+        <div class="bg-gradient-to-r from-sky-400 to-blue-600 text-white p-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <span class="text-xl mr-2">🌿</span>
+                <h1 class="text-xl font-bold">BlueCarbon</h1>
+            </div>
+            <button id="menu-btn" class="text-white">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Screen Container -->
+        <div class="h-[calc(100%-128px)] overflow-y-auto bg-gradient-to-b from-sky-200 via-blue-100 to-white relative">
+            <!-- Login Screen -->
+            <div id="login-screen" class="screen active-screen p-6 h-full flex flex-col justify-center">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h2>
+                    <p class="text-gray-600">Sign in to your Blue Carbon Registry account</p>
+                </div>
+                
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="email">Email / NGO ID</label>
+                        <input type="text" id="email" class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="password">Password</label>
+                        <input type="password" id="password" class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <button type="button" id="login-btn" class="w-full bg-gradient-to-r from-sky-400 to-blue-600 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300">
+                        Login
+                    </button>
+                </form>
+                
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">Don't have an account? <button id="show-register" class="text-blue-600 font-semibold">Register your NGO</button></p>
+                </div>
+                
+                <div class="wave-bg"></div>
+            </div>
+
+            <!-- Registration Screen -->
+            <div id="register-screen" class="screen inactive-screen p-6 h-full overflow-y-auto">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Register Your NGO</h2>
+                    <p class="text-gray-600">Join the Blue Carbon Registry community</p>
+                </div>
+                
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="org-name">NGO/Community Name</label>
+                        <input type="text" id="org-name" class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="reg-number">Registration Number</label>
+                        <input type="text" id="reg-number" class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="certificate">Upload Certificate</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center">
+                            <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
+                            <p class="text-gray-500">Drag & drop or click to upload</p>
+                            <input type="file" id="certificate" class="hidden">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="contact-email">Contact Email</label>
+                        <input type="email" id="contact-email" class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="contact-phone">Mobile Number</label>
+                        <input type="tel" id="contact-phone" class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="location">Location</label>
+                        <select id="location" class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select your region</option>
+                            <option value="southeast-asia">Southeast Asia</option>
+                            <option value="south-asia">South Asia</option>
+                            <option value="latin-america">Latin America</option>
+                            <option value="africa">Africa</option>
+                            <option value="pacific">Pacific Islands</option>
+                        </select>
+                    </div>
+                    
+                    <button type="button" id="register-btn" class="w-full bg-gradient-to-r from-sky-400 to-blue-600 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300">
+                        Submit Registration
+                    </button>
+                </form>
+                
+                <div class="mt-4 text-center">
+                    <button id="show-login" class="text-blue-600 font-semibold">← Back to Login</button>
+                </div>
+            </div>
+
+            <!-- Home Dashboard -->
+            <div id="home-screen" class="screen inactive-screen p-6 h-full overflow-y-auto">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Welcome, Ocean Revival Foundation 🌊</h2>
+                    <p class="text-gray-600">Here's your project overview</p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-white/70 rounded-2xl p-4 shadow-md backdrop-blur-md border border-white/50">
+                        <div class="flex items-center mb-2">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-plus text-blue-600"></i>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">New Project</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">Start a new mangrove restoration project</p>
+                    </div>
+                    
+                    <div class="bg-white/70 rounded-2xl p-4 shadow-md backdrop-blur-md border border-white/50">
+                        <div class="flex items-center mb-2">
+                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                                <i class="fas fa-folder-open text-green-600"></i>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">My Projects</h3>
+                        </div>
+                        <p class="text-sm text-gray-600">View all your projects</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white/70 rounded-2xl p-4 shadow-md backdrop-blur-md border border-white/50 mb-6">
+                    <h3 class="font-semibold text-gray-800 mb-4">Project Summary</h3>
+                    
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div>
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <i class="fas fa-seedling text-green-600"></i>
+                            </div>
+                            <p class="text-2xl font-bold text-gray-800">3</p>
+                            <p class="text-xs text-gray-600">Projects</p>
+                        </div>
+                        
+                        <div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <i class="fas fa-check-circle text-blue-600"></i>
+                            </div>
+                            <p class="text-2xl font-bold text-gray-800">2</p>
+                            <p class="text-xs text-gray-600">Verified</p>
+                        </div>
+                        
+                        <div>
+                            <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <i class="fas fa-clock text-amber-600"></i>
+                            </div>
+                            <p class="text-2xl font-bold text-gray-800">1</p>
+                            <p class="text-xs text-gray-600">Under Review</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white/70 rounded-2xl p-4 shadow-md backdrop-blur-md border border-white/50">
+                    <h3 class="font-semibold text-gray-800 mb-4">Recent Activity</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                                <i class="fas fa-upload text-blue-600 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-800">Mangrove Restoration - Sundarbans</p>
+                                <p class="text-sm text-gray-600">Submitted for verification • 2 days ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                                <i class="fas fa-check text-green-600 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-800">Coastal Protection - Mekong Delta</p>
+                                <p class="text-sm text-gray-600">Project verified • 1 week ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="wave-bg"></div>
+            </div>
+
+            <!-- New Project Screen -->
+            <div id="new-project-screen" class="screen inactive-screen p-6 h-full overflow-y-auto">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">New Restoration Project</h2>
+                    <p class="text-gray-600">Submit details for verification</p>
+                </div>
+                
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="project-title">Project Title</label>
+                        <input type="text" id="project-title" class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Mangrove Restoration - Sundarbans">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="project-location">Location</label>
+                        <div class="flex">
+                            <input type="text" id="project-location" class="flex-grow p-3 border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="GPS coordinates or area name">
+                            <button type="button" class="bg-blue-100 text-blue-600 px-4 rounded-r-xl border border-l-0 border-gray-300">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="species-type">Species Type</label>
+                        <select id="species-type" class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select mangrove species</option>
+                            <option value="avicennia">Avicennia</option>
+                            <option value="rhizophora">Rhizophora</option>
+                            <option value="sonneratia">Sonneratia</option>
+                            <option value="mixed">Mixed Species</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2" for="area-covered">Area Covered (hectares)</label>
+                        <input type="number" id="area-covered" class="w-full p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., 5.2">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2">Documents Upload</label>
+                        
+                        <div class="space-y-3">
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center">
+                                <i class="fas fa-file-alt text-2xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-500 text-sm">Land Ownership Papers</p>
+                                <input type="file" class="hidden">
+                            </div>
+                            
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center">
+                                <i class="fas fa-certificate text-2xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-500 text-sm">NGO Verification Documents</p>
+                                <input type="file" class="hidden">
+                            </div>
+                            
+                            <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center">
+                                <i class="fas fa-camera text-2xl text-gray-400 mb-2"></i>
+                                <p class="text-gray-500 text-sm">Field Photos / Drone Images</p>
+                                <input type="file" class="hidden" multiple>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="submit-project" class="w-full bg-gradient-to-r from-sky-400 to-blue-600 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center">
+                        <span id="submit-text">Submit for Verification</span>
+                        <div id="submit-spinner" class="hidden ml-2">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </button>
+                </form>
+            </div>
+
+            <!-- My Projects Screen -->
+            <div id="projects-screen" class="screen inactive-screen p-6 h-full overflow-y-auto">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">My Projects</h2>
+                    <p class="text-gray-600">Manage your restoration projects</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- Project Card 1 -->
+                    <div class="bg-white/70 rounded-2xl p-4 shadow-md backdrop-blur-md border border-white/50">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-gray-800">Mangrove Restoration - Sundarbans</h3>
+                            <span class="status-badge status-pending">Pending</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Submitted: 15 Oct 2023</p>
+                        <div class="flex justify-between text-sm text-gray-600 mb-3">
+                            <span><i class="fas fa-map-marker-alt mr-1"></i> Bangladesh</span>
+                            <span><i class="fas fa-ruler-combined mr-1"></i> 5.2 hectares</span>
+                        </div>
+                        <button class="view-details-btn w-full bg-blue-50 text-blue-600 py-2 rounded-xl font-medium text-sm transition-all duration-300 hover:bg-blue-100">
+                            View Details
+                        </button>
+                        
+                        <!-- Project Details (Hidden by default) -->
+                        <div class="project-details mt-4 hidden border-t pt-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">Project Details</h4>
+                            <div class="grid grid-cols-2 gap-2 text-sm mb-4">
+                                <div>
+                                    <p class="text-gray-500">Species</p>
+                                    <p class="font-medium">Avicennia, Rhizophora</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Area</p>
+                                    <p class="font-medium">5.2 hectares</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Start Date</p>
+                                    <p class="font-medium">10 Sep 2023</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Expected CO₂</p>
+                                    <p class="font-medium">240 tCO₂/year</p>
+                                </div>
+                            </div>
+                            
+                            <h4 class="font-semibold text-gray-800 mb-2">Uploaded Documents</h4>
+                            <div class="flex space-x-3 mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-file-pdf text-blue-600"></i>
+                                </div>
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-image text-green-600"></i>
+                                </div>
+                                <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-file-word text-amber-600"></i>
+                                </div>
+                            </div>
+                            
+                            <h4 class="font-semibold text-gray-800 mb-2">Verification History</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex">
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></div>
+                                    <div>
+                                        <p class="font-medium">Submitted for verification</p>
+                                        <p class="text-gray-500">15 Oct 2023</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="w-2 h-2 bg-gray-300 rounded-full mt-2 mr-3"></div>
+                                    <div>
+                                        <p class="text-gray-600">Under review by NCCR</p>
+                                        <p class="text-gray-500">Expected: 30 Oct 2023</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project Card 2 -->
+                    <div class="bg-white/70 rounded-2xl p-4 shadow-md backdrop-blur-md border border-white/50">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-gray-800">Coastal Protection - Mekong Delta</h3>
+                            <span class="status-badge status-approved">Approved</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Submitted: 22 Aug 2023</p>
+                        <div class="flex justify-between text-sm text-gray-600 mb-3">
+                            <span><i class="fas fa-map-marker-alt mr-1"></i> Vietnam</span>
+                            <span><i class="fas fa-ruler-combined mr-1"></i> 8.7 hectares</span>
+                        </div>
+                        <button class="view-details-btn w-full bg-blue-50 text-blue-600 py-2 rounded-xl font-medium text-sm transition-all duration-300 hover:bg-blue-100">
+                            View Details
+                        </button>
+                    </div>
+                    
+                    <!-- Project Card 3 -->
+                    <div class="bg-white/70 rounded-2xl p-4 shadow-md backdrop-blur-md border border-white/50">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-gray-800">Mangrove Conservation - Amazon Delta</h3>
+                            <span class="status-badge status-approved">Approved</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Submitted: 05 Jul 2023</p>
+                        <div class="flex justify-between text-sm text-gray-600 mb-3">
+                            <span><i class="fas fa-map-marker-alt mr-1"></i> Brazil</span>
+                            <span><i class="fas fa-ruler-combined mr-1"></i> 12.5 hectares</span>
+                        </div>
+                        <button class="view-details-btn w-full bg-blue-50 text-blue-600 py-2 rounded-xl font-medium text-sm transition-all duration-300 hover:bg-blue-100">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Screen -->
+            <div id="status-screen" class="screen inactive-screen p-6 h-full overflow-y-auto">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Verification Status</h2>
+                    <p class="text-gray-600">Track your project verification progress</p>
+                </div>
+                
+                <div class="bg-white/70 rounded-2xl p-4 shadow-md backdrop-blur-md border border-white/50 mb-6">
+                    <h3 class="font-semibold text-gray-800 mb-4">Mangrove Restoration - Sundarbans</h3>
+                    
+                    <!-- Progress Bar -->
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm text-gray-600 mb-2">
+                            <span>25% Complete</span>
+                            <span>Step 1 of 4</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 25%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline -->
+                    <div class="space-y-6">
+                        <!-- Step 1 -->
+                        <div class="flex">
+                            <div class="flex flex-col items-center mr-4">
+                                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="h-full w-0.5 bg-blue-500 mt-2"></div>
+                            </div>
+                            <div class="flex-1 pb-6">
+                                <h4 class="font-semibold text-gray-800">Submitted</h4>
+                                <p class="text-sm text-gray-600 mb-2">Project details submitted for verification</p>
+                                <p class="text-xs text-gray-500">15 Oct 2023</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2 -->
+                        <div class="flex">
+                            <div class="flex flex-col items-center mr-4">
+                                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <div class="h-full w-0.5 bg-gray-300 mt-2"></div>
+                            </div>
+                            <div class="flex-1 pb-6">
+                                <h4 class="font-semibold text-gray-800">Under Review</h4>
+                                <p class="text-sm text-gray-600 mb-2">NCCR is reviewing your submission</p>
+                                <p class="text-xs text-gray-500">Expected: 30 Oct 2023</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3 -->
+                        <div class="flex">
+                            <div class="flex flex-col items-center mr-4">
+                                <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white">
+                                    <i class="fas fa-check-double"></i>
+                                </div>
+                                <div class="h-full w-0.5 bg-gray-300 mt-2"></div>
+                            </div>
+                            <div class="flex-1 pb-6">
+                                <h4 class="font-semibold text-gray-800">Verified</h4>
+                                <p class="text-sm text-gray-600">Project verification completed</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 4 -->
+                        <div class="flex">
+                            <div class="flex flex-col items-center mr-4">
+                                <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-800">Tokenized</h4>
+                                <p class="text-sm text-gray-600">Carbon credits issued as tokens</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white/70 rounded-2xl p-4 shadow-md backdrop-blur-md border border-white/50">
+                    <h3 class="font-semibold text-gray-800 mb-4">Verification Certificate</h3>
+                    <p class="text-sm text-gray-600 mb-4">Download your verification certificate once the project is approved.</p>
+                    <button class="w-full bg-gradient-to-r from-sky-400 to-blue-600 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 opacity-50 cursor-not-allowed" disabled>
+                        Download Certificate (Available after verification)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile Screen -->
+            <div id="profile-screen" class="screen inactive-screen p-6 h-full overflow-y-auto">
+                <div class="text-center mb-6">
+                    <div class="w-24 h-24 bg-gradient-to-r from-sky-400 to-blue-600 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
+                        ORF
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Ocean Revival Foundation</h2>
+                    <p class="text-gray-600">Registered since 2018</p>
+                </div>
+                
+                <div class="bg-white/70 rounded-2xl p-4 shadow-md backdrop-blur-md border border-white/50 mb-6">
+                    <h3 class="font-semibold text-gray-800 mb-4">Organization Information</h3>
+                    
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Email</span>
+                            <span class="font-medium">contact@oceanrevival.org</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Phone</span>
+                            <span class="font-medium">+1 (555) 123-4567</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Location</span>
+                            <span class="font-medium">Southeast Asia</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Registration No.</span>
+                            <span class="font-medium">NGO-2020-78241</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <button class="w-full bg-white/70 rounded-xl p-4 shadow-md backdrop-blur-md border border-white/50 text-left flex items-center transition-all duration-300 hover:bg-white/90">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user-edit text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Edit Profile</h3>
+                            <p class="text-sm text-gray-600">Update organization details</p>
+                        </div>
+                    </button>
+                    
+                    <button class="w-full bg-white/70 rounded-xl p-4 shadow-md backdrop-blur-md border border-white/50 text-left flex items-center transition-all duration-300 hover:bg-white/90">
+                        <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-key text-amber-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Change Password</h3>
+                            <p class="text-sm text-gray-600">Update your login password</p>
+                        </div>
+                    </button>
+                    
+                    <button class="w-full bg-white/70 rounded-xl p-4 shadow-md backdrop-blur-md border border-white/50 text-left flex items-center transition-all duration-300 hover:bg-white/90">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-question-circle text-green-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Help & Support</h3>
+                            <p class="text-sm text-gray-600">Get assistance with the platform</p>
+                        </div>
+                    </button>
+                    
+                    <button id="logout-btn" class="w-full bg-white/70 rounded-xl p-4 shadow-md backdrop-blur-md border border-white/50 text-left flex items-center transition-all duration-300 hover:bg-red-50">
+                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-sign-out-alt text-red-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Logout</h3>
+                            <p class="text-sm text-gray-600">Sign out from your account</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bg-white border-t border-gray-200 p-3 flex justify-around">
+            <button class="nav-item flex flex-col items-center text-gray-500 transition-all duration-300 active" data-screen="home-screen">
+                <i class="fas fa-home text-xl mb-1"></i>
+                <span class="text-xs">Home</span>
+            </button>
+            <button class="nav-item flex flex-col items-center text-gray-500 transition-all duration-300" data-screen="projects-screen">
+                <i class="fas fa-folder text-xl mb-1"></i>
+                <span class="text-xs">My Projects</span>
+            </button>
+            <button class="nav-item flex flex-col items-center text-gray-500 transition-all duration-300" data-screen="new-project-screen">
+                <i class="fas fa-plus-circle text-xl mb-1"></i>
+                <span class="text-xs">New Project</span>
+            </button>
+            <button class="nav-item flex flex-col items-center text-gray-500 transition-all duration-300" data-screen="status-screen">
+                <i class="fas fa-chart-bar text-xl mb-1"></i>
+                <span class="text-xs">Status</span>
+            </button>
+            <button class="nav-item flex flex-col items-center text-gray-500 transition-all duration-300" data-screen="profile-screen">
+                <i class="fas fa-user text-xl mb-1"></i>
+                <span class="text-xs">Profile</span>
+            </button>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span>Project submitted successfully for NCCR verification 🌿</span>
+        </div>
+    </div>
+
+    <script>
+        // Screen Management
+        const screens = document.querySelectorAll('.screen');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        function showScreen(screenId) {
+            screens.forEach(screen => {
+                if (screen.id === screenId) {
+                    screen.classList.remove('inactive-screen');
+                    screen.classList.add('active-screen');
+                } else {
+                    screen.classList.remove('active-screen');
+                    screen.classList.add('inactive-screen');
+                }
+            });
+            
+            // Update active nav item
+            navItems.forEach(item => {
+                if (item.getAttribute('data-screen') === screenId) {
+                    item.classList.add('active');
+                    item.classList.remove('text-gray-500');
+                    item.classList.add('text-blue-600');
+                } else {
+                    item.classList.remove('active');
+                    item.classList.remove('text-blue-600');
+                    item.classList.add('text-gray-500');
+                }
+            });
+        }
+        
+        // Navigation event listeners
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const screenId = item.getAttribute('data-screen');
+                showScreen(screenId);
+            });
+        });
+        
+        // Login/Register navigation
+        document.getElementById('show-register').addEventListener('click', () => {
+            showScreen('register-screen');
+        });
+        
+        document.getElementById('show-login').addEventListener('click', () => {
+            showScreen('login-screen');
+        });
+        
+        // Login functionality
+        document.getElementById('login-btn').addEventListener('click', () => {
+            showScreen('home-screen');
+        });
+        
+        // Register functionality
+        document.getElementById('register-btn').addEventListener('click', () => {
+            showScreen('login-screen');
+        });
+        
+        // Logout functionality
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            showScreen('login-screen');
+        });
+        
+        // Project submission with spinner and toast
+        document.getElementById('submit-project').addEventListener('click', () => {
+            const submitText = document.getElementById('submit-text');
+            const submitSpinner = document.getElementById('submit-spinner');
+            
+            // Show spinner
+            submitText.classList.add('hidden');
+            submitSpinner.classList.remove('hidden');
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Hide spinner
+                submitText.classList.remove('hidden');
+                submitSpinner.classList.add('hidden');
+                
+                // Show toast
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                // Hide toast after 3 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    // Navigate to projects screen
+                    showScreen('projects-screen');
+                }, 3000);
+            }, 2000);
+        });
+        
+        // Project details toggle
+        const viewDetailsButtons = document.querySelectorAll('.view-details-btn');
+        viewDetailsButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const details = button.nextElementSibling;
+                if (details.classList.contains('hidden')) {
+                    details.classList.remove('hidden');
+                    button.textContent = 'Hide Details';
+                } else {
+                    details.classList.add('hidden');
+                    button.textContent = 'View Details';
+                }
+            });
+        });
+        
+        // Initialize with login screen
+        showScreen('login-screen');
+    </script>
+</body>
+</html>

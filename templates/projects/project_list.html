@@ -1,34 +1,394 @@
 {% extends "base.html" %}
-{% block title %}All Projects{% endblock %}
+{% block title %}Dashboard - Blue Carbon Registry{% endblock %}
 
 {% block content %}
-<div class="max-w-6xl mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6">🌍 All Projects</h1>
+<div class="mx-auto p-6">
+    <!-- Dashboard Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-slate-800 mb-2">NCCR Blue Carbon Registry Dashboard</h1>
+        <p class="text-slate-600">Blockchain-powered Monitoring, Reporting & Verification System</p>
+    </div>
 
-    {% if projects %}
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {% for project in projects %}
-                <div class="bg-white rounded-2xl shadow p-5 border hover:shadow-lg transition">
-                    <h2 class="text-lg font-semibold mb-2">{{ project.title }}</h2>
-                    <p class="text-gray-600 text-sm mb-3">{{ project.description|truncatewords:20 }}</p>
+    <!-- Key Metrics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Blockchain Verified Projects -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-600">Blockchain Verified Projects</p>
+                    <p class="text-2xl font-bold text-slate-800 mt-1">24</p>
+                </div>
+                <div class="h-12 w-12 rounded-lg bg-blue-50 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="flex items-center mt-3">
+                <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                    +3 this month
+                </span>
+            </div>
+        </div>
 
-                    <p class="text-xs text-gray-500">
-                        🌱 {{ project.species }} | {{ project.seedling_count }} seedlings
-                    </p>
-                    <p class="text-xs text-gray-500">
-                        📍 {{ project.location }}
-                    </p>
+        <!-- Tokenized Carbon Credits -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-600">Tokenized Carbon Credits</p>
+                    <p class="text-2xl font-bold text-slate-800 mt-1">89.2K</p>
+                </div>
+                <div class="h-12 w-12 rounded-lg bg-emerald-50 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="flex items-center mt-3">
+                <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                    Smart Contract Verified
+                </span>
+            </div>
+        </div>
 
-                    <div class="flex justify-between items-center mt-4">
-                        <span class="text-xs text-gray-400">By {{ project.created_by.username }}</span>
-                        <a href="{% url 'project-detail' project.pk %}" 
-                           class="text-blue-600 hover:underline text-sm">View</a>
+        <!-- MRV Data Sources -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-600">MRV Data Sources</p>
+                    <p class="text-2xl font-bold text-slate-800 mt-1">156</p>
+                </div>
+                <div class="h-12 w-12 rounded-lg bg-purple-50 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="flex items-center mt-3">
+                <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                    Drones + Mobile Apps
+                </span>
+            </div>
+        </div>
+
+        <!-- Partner Organizations -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-600">Partner Organizations</p>
+                    <p class="text-2xl font-bold text-slate-800 mt-1">18</p>
+                </div>
+                <div class="h-12 w-12 rounded-lg bg-amber-50 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="flex items-center mt-3">
+                <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                    NGOs + Coastal Panchayats
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- NCCR Admin Tools & Recent Activity -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <!-- NCCR Admin Tools -->
+        <div class="lg:col-span-1 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-semibold text-slate-800 mb-4">NCCR Admin Tools</h3>
+            <div class="space-y-3">
+                <button class="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors flex items-center">
+                    <svg class="w-5 h-5 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Verify & Certify Projects
+                </button>
+                <button class="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors flex items-center">
+                    <svg class="w-5 h-5 mr-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Deploy Smart Contracts
+                </button>
+                <button class="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors flex items-center">
+                    <svg class="w-5 h-5 mr-3 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                    Manage Partner Access
+                </button>
+                <button class="w-full text-left px-4 py-3 text-sm font-medium text-slate-700 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors flex items-center">
+                    <svg class="w-5 h-5 mr-3 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    Audit Blockchain Records
+                </button>
+            </div>
+        </div>
+
+        <!-- Recent Blockchain Activity -->
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-semibold text-slate-800 mb-4">Recent Blockchain Activity</h3>
+            <div class="space-y-4">
+                <div class="flex items-start">
+                    <div class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-slate-800">Smart Contract Executed</p>
+                        <p class="text-xs text-slate-500">Carbon credits tokenized for Mangrove Delta Project</p>
+                        <div class="flex justify-between items-center mt-1">
+                            <p class="text-xs text-slate-400">Tx: 0x8a3f...c42d</p>
+                            <p class="text-xs text-slate-400">2 hours ago</p>
+                        </div>
                     </div>
                 </div>
-            {% endfor %}
+                <div class="flex items-start">
+                    <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-slate-800">MRV Data Verified</p>
+                        <p class="text-xs text-slate-500">Drone survey data immutably stored on blockchain</p>
+                        <div class="flex justify-between items-center mt-1">
+                            <p class="text-xs text-slate-400">Block #124567</p>
+                            <p class="text-xs text-slate-400">1 day ago</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center mr-3 flex-shrink-0">
+                        <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-slate-800">New Partner Onboarded</p>
+                        <p class="text-xs text-slate-500">Coastal Panchayat registered with blockchain identity</p>
+                        <div class="flex justify-between items-center mt-1">
+                            <p class="text-xs text-slate-400">Wallet: 0x3b2f...a91c</p>
+                            <p class="text-xs text-slate-400">2 days ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    {% else %}
-        <p class="text-gray-500">No projects available yet.</p>
-    {% endif %}
+    </div>
+
+    <!-- Blockchain & MRV Analytics Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <!-- Blockchain Transactions -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-semibold text-slate-800 mb-4">Blockchain Transactions</h3>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-emerald-500 mr-3"></div>
+                        <span class="text-sm text-slate-700">Credit Tokenization</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-800">1,245</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
+                        <span class="text-sm text-slate-700">Data Verification</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-800">3,567</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-amber-500 mr-3"></div>
+                        <span class="text-sm text-slate-700">Smart Contract Executions</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-800">892</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
+                        <span class="text-sm text-slate-700">MRV Data Uploads</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-800">2,134</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MRV Data Sources -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <h3 class="text-lg font-semibold text-slate-800 mb-4">MRV Data Sources</h3>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-green-500 mr-3"></div>
+                        <span class="text-sm text-slate-700">Mobile App Uploads</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-800">856</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-blue-500 mr-3"></div>
+                        <span class="text-sm text-slate-700">Drone Surveys</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-800">342</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-amber-500 mr-3"></div>
+                        <span class="text-sm text-slate-700">Satellite Imagery</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-800">198</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full bg-purple-500 mr-3"></div>
+                        <span class="text-sm text-slate-700">Field Sensors</span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-800">567</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Projects Grid with Blockchain Status -->
+    <div class="mb-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-slate-800">Blockchain-Verified Projects</h2>
+            <div class="flex space-x-3">
+                <button class="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors">
+                    Filter
+                </button>
+                <button class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Register New Project
+                </button>
+            </div>
+        </div>
+
+        {% if projects %}
+            <div class="grid gap-6 sm:grid-cols-2">
+                {% for project in projects %}
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-all duration-200 group">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-lg font-semibold text-slate-800 group-hover:text-emerald-700 transition-colors">{{ project.title }}</h3>
+                            <div class="flex flex-col items-end space-y-1">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                                    {{ project.status }}
+                                </span>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    {% if project.blockchain_verified %}
+                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                        </svg>
+                                        Blockchain Verified
+                                    {% else %}
+                                        Pending Verification
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-slate-600 text-sm mb-4 leading-relaxed">{{ project.description|truncatewords:25 }}</p>
+
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center text-sm text-slate-600">
+                                <svg class="w-4 h-4 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                {{ project.location }}
+                            </div>
+                            <div class="flex items-center text-sm text-slate-600">
+                                <svg class="w-4 h-4 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                </svg>
+                                {{ project.species }}
+                            </div>
+                            <div class="flex items-center text-sm text-slate-600">
+                                <svg class="w-4 h-4 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                                {{ project.carbon_credits }} Carbon Credits Generated
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+                            <div class="flex items-center">
+                                <div class="h-6 w-6 rounded-full bg-slate-200 flex items-center justify-center text-xs text-slate-600 font-medium">
+                                    {{ project.created_by.username|first|upper }}
+                                </div>
+                                <span class="text-xs text-slate-500 ml-2">{{ project.partner_type }}</span>
+                            </div>
+                            <a href="{% url 'project-detail' project.pk %}" 
+                               class="inline-flex items-center text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
+                                View Blockchain Record
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
+                <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                </svg>
+                <h3 class="text-lg font-medium text-slate-700 mb-2">No projects registered yet</h3>
+                <p class="text-slate-500 mb-4">Start by registering your first blue carbon project on the blockchain.</p>
+                <button class="px-6 py-2 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors">
+                    Register Project
+                </button>
+            </div>
+        {% endif %}
+    </div>
 </div>
+
+<!-- Enhanced Sample Data with Blockchain Fields -->
+<script>
+const sampleProjects = [
+    {
+        id: 1,
+        title: "Mangrove Restoration - Coastal Delta",
+        description: "Large-scale mangrove restoration project focusing on Rhizophora species to enhance coastal protection and carbon sequestration in the Southeast Delta region.",
+        location: "Southeast Delta, Coastal Region",
+        species: "Rhizophora mucronata, Avicennia marina",
+        carbon_credits: "45,200",
+        status: "Active",
+        blockchain_verified: true,
+        partner_type: "Coastal Panchayat",
+        created_by: { username: "maria_johnson" }
+    },
+    {
+        id: 2,
+        title: "Seagrass Conservation Initiative",
+        description: "Protection and restoration of seagrass meadows to maintain biodiversity and enhance blue carbon storage capabilities in shallow coastal waters.",
+        location: "Northern Bay Area",
+        species: "Zostera marina, Thalassia testudinum",
+        carbon_credits: "28,500",
+        status: "Monitoring",
+        blockchain_verified: true,
+        partner_type: "NGO Partner",
+        created_by: { username: "robert_smith" }
+    },
+    {
+        id: 3,
+        title: "Community-Based Wetland Preservation",
+        description: "Engaging local communities in wetland conservation efforts while creating sustainable economic opportunities through carbon credit programs.",
+        location: "Western Wetlands Reserve",
+        species: "Mixed native species",
+        carbon_credits: "62,000",
+        status: "Active",
+        blockchain_verified: false,
+        partner_type: "Community Organization",
+        created_by: { username: "amanda_kim" }
+    }
+];
+</script>
 {% endblock %}

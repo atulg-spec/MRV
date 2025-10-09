@@ -1,0 +1,201 @@
+<!-- Sidebar -->
+<div class="fixed inset-y-0 left-0 z-50 flex w-64 lg:relative lg:z-0 lg:w-auto lg:flex-shrink-0 lg:static lg:flex lg:inset-auto lg:left-auto lg:top-auto lg:h-auto lg:visible hidden lg:block"
+    id="side-navbar">
+    <div class="flex flex-col w-64 border-r border-gray-200 bg-sky-50">
+        <!-- Sidebar header -->
+        <div class="flex items-center h-16 flex-shrink-0 border-b border-sky-100 shadow-md">
+            <a href="#" class="flex flex-shrink-0 items-center">
+                <img src="https://images.squarespace-cdn.com/content/v1/66b65ca3f7903a54859e8281/a1043222-b156-4804-873c-a59a4e09ee19/Copy+of+2024+GMA+Success+Stories+%283%29.png"
+                    alt="MRV Logo" class="w-12 h-12 m-2">
+                <span class="text-sm font-bold text-primary tracking-tight">Blue Carbon Registry</span>
+            </a>
+        </div>
+
+        <!-- Sidebar content -->
+        <div class="flex-1 flex flex-col overflow-y-auto">
+            <nav class="flex-1 px-4 py-4 space-y-1">
+                <!-- Dashboard -->
+                <a href="/"
+                    class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+        {% if request.resolver_match.url_name == 'index' %}bg-green-50 text-green-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5 flex-shrink-0" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h14a1 1 0 001-1V10" />
+                    </svg>
+                    Dashboard
+                </a>
+
+                <!-- Blockchain Registry -->
+                <a href="/blockchain-registry"
+                    class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+                    {% if request.resolver_match.url_name == 'blockchain_registry' %}bg-green-50 text-green-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    Blockchain Registry
+                </a>
+
+                <!-- MRV System -->
+                <a href="/mrv-system"
+                    class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+                    {% if request.resolver_match.url_name == 'mrv_system' %}bg-green-50 text-green-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    MRV System
+                </a>
+
+                <!-- Smart Contracts -->
+                <a href="/smart-contracts"
+                    class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+                    {% if request.resolver_match.url_name == 'smart_contracts' %}bg-green-50 text-green-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                    Smart Contracts
+                </a>
+
+                <!-- Partner Onboarding -->
+                <a href="/partner-onboarding"
+                    class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+                    {% if request.resolver_match.url_name == 'partner_onboarding' %}bg-green-50 text-green-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 100-8 4 4 0 000 8z" />
+                    </svg>
+                    Partner Onboarding
+                </a>
+
+                <!-- Projects -->
+                <a href="/projects"
+                    class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+        {% if request.resolver_match.url_name == 'projects' %}bg-green-50 text-green-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5 flex-shrink-0" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 7h18M3 12h18M3 17h18" />
+                    </svg>
+                    Projects
+                </a>
+
+                <!-- Tokenized Credits -->
+                <a href="/tokenized-credits"
+                    class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+        {% if request.resolver_match.url_name == 'token_credits' %}bg-green-50 text-green-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5 flex-shrink-0" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8c1.657 0 3 .843 3 1.882v4.236c0 1.04-1.343 1.882-3 1.882s-3-.842-3-1.882V9.882C9 8.843 10.343 8 12 8z" />
+                        <circle cx="12" cy="12" r="9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Tokenized Credits
+                </a>
+
+                <!-- Data Integration -->
+                <a href="/data-integration"
+                    class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+                    {% if request.resolver_match.url_name == 'data_integration' %}bg-green-50 text-green-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                    </svg>
+                    Data Integration
+                </a>
+
+                <!-- NCCR Admin -->
+                <a href="/nccr-admin"
+                    class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+                    {% if request.resolver_match.url_name == 'nccr_admin' %}bg-green-50 text-green-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    NCCR Admin
+                </a>
+
+                <!-- Reports & Analytics -->
+                <a href="/reports"
+                    class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+        {% if request.resolver_match.url_name == 'reports' %}bg-green-50 text-green-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5 flex-shrink-0" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 19V9m4 10V5m4 14V3M7 19v-6m-4 6v-2" />
+                    </svg>
+                    Reports & Analytics
+                </a>
+
+                <!-- Settings -->
+                <a href="/settings"
+                    class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 
+        {% if request.resolver_match.url_name == 'settings' %}bg-green-50 text-green-700{% else %}text-gray-600 hover:bg-gray-50 hover:text-gray-900{% endif %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5 flex-shrink-0" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8c-2.21 0-4 1.79-4 4m0 0a4 4 0 004 4m0-8v8m-6 0a2 2 0 01-2-2m0-4a2 2 0 012-2m12 8a2 2 0 002-2m0-4a2 2 0 00-2-2" />
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+
+            <!-- NCCR Badge -->
+            <div class="px-4 py-3 border-t border-gray-200">
+                <div class="bg-white rounded-lg p-3 border border-sky-200">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-xs font-medium text-gray-700">NCCR Admin</p>
+                            <p class="text-xs text-gray-500">MoES Verified</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Profile -->
+            <div class="px-4 py-4 border-t border-gray-200">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-medium">
+                            {% if request.user.is_authenticated %}
+                                {{ request.user.get_full_name|first|upper|default:request.user.username|first|upper }}
+                            {% else %}
+                                R
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-gray-700">
+                            {% if request.user.is_authenticated %}
+                            {{ request.user.get_full_name|default:request.user.username }}
+                            {% else %}
+                            Dr. M.Ravichandran
+                            {% endif %}
+                        </p>
+                        <div class="flex items-center">
+                            <div class="h-2 w-2 rounded-full bg-emerald-400 mr-1"></div>
+                            <span class="text-xs font-medium text-gray-500">Online</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

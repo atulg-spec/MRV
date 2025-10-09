@@ -1,401 +1,311 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Blue Carbon Registry{% endblock %}</title>
+    <title>
+        {% block title %}
+        MRT Tree Plantation | Secure Nature, Save Life
+        {% endblock %}
+    </title>
+    <!-- Basic SEO -->
+    <meta name="description" content="Join MRT's mission to plant 100 crore trees and restore India’s green cover. Together, let's build a greener, sustainable future.">
+    <meta name="keywords" content="tree plantation, green india, environmental NGO, plant trees, climate change India, MRT Green, 100 crore trees">
+    <meta name="author" content="MRT Group">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.mrtt.org.in/" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/static/img/logo.png" type="image/x-icon" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MRT Tree Plantation | Secure Nature, Save Life" />
+    <meta property="og:description" content="Join MRT's mission to plant 100 crore trees across India and help fight climate change." />
+    <meta property="og:image" content="https://www.mrtt.org.in/static/img/logo.png" />
+    <meta property="og:url" content="https://www.mrtt.org.in/" />
+    <meta property="og:site_name" content="MRT Tree Plantation" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MRT Tree Plantation | Secure Nature, Save Life" />
+    <meta name="twitter:description" content="Help us restore India's forests by planting 100 crore trees. Be part of the green revolution!" />
+    <meta name="twitter:image" content="https://www.mrtt.org.in/static/img/logo.png" />
+    <meta name="twitter:site" content="@mrtgreen" />
+    <meta name="twitter:creator" content="@mrtgreen" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#253f26" />
+
+    <link rel="stylesheet" href="/static/css/output.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MRT Tree Plantation",
+        "url": "https://www.mrtt.org.in/",
+        "logo": "https://www.mrtt.org.in/static/img/logo.png",
+        "sameAs": [
+            "https://facebook.com/mrtgreen",
+            "https://instagram.com/mrtgreen",
+            "https://twitter.com/mrtgreen",
+            "https://linkedin.com/company/mrtgreen"
+        ],
+        "description": "MRT is on a mission to plant 100 crore trees and create a greener, healthier India for future generations."
+    }
+    </script>
+
+    <!-- Tailwind CSS -->
     <script>
-        // Initialize dark mode from localStorage
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-        
-        // Toggle dark mode function
-        function toggleDarkMode() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sky: {
+                            50:  '#f0f9ff',  // very light sky blue
+                            100: '#e0f2fe',  // pale blue
+                            200: '#bae6fd',  // light blue
+                            300: '#7dd3fc',  // clear sky
+                            400: '#38bdf8',  // bright sky
+                            500: '#0ea5e9',  // standard blue sky
+                            600: '#0284c7',  // afternoon sky
+                            700: '#0369a1',  // early evening sky
+                            800: '#075985',  // twilight blue
+                            900: '#0c4a6e',  // deep night sky
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+                    },
+                    animation: {
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(0)' },
+                            '50%': { transform: 'translateY(-6px) rotate(1deg)' },
+                        }
+                    }
+                }
             }
         }
     </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
     <style>
-        .sidebar-transition {
-            transition: all 0.3s ease;
+        .leaf-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 18.307c1.33.902 1.184 2.728-.326 4.078-1.51 1.35-3.906 1.687-5.236.785-1.33-.902-1.184-2.728.326-4.078 1.51-1.35 3.906-1.687 5.236-.785zM30.59 7.615c1.33.902 1.184 2.728-.326 4.078-1.51 1.35-3.906 1.687-5.236.785-1.33-.902-1.184-2.728.326-4.078 1.51-1.35 3.906-1.687 5.236-.785zM9.412 21.429c1.33.902 1.184 2.728-.326 4.078-1.51 1.35-3.906 1.687-5.236.785-1.33-.902-1.184-2.728.326-4.078 1.51-1.35 3.906-1.687 5.236-.785z' fill='%233d753f' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
         }
-        .notification-dot {
-            position: absolute;
-            top: -2px;
-            right: -2px;
+
+        .sidebar-transition {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .dropdown-enter {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .dropdown-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 200ms, transform 200ms;
+        }
+
+        .dropdown-exit {
+            opacity: 1;
+        }
+
+        .dropdown-exit-active {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 200ms, transform 200ms;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
-            border-radius: 50%;
-            background-color: #ef4444;
         }
-        .sidebar-item.active {
-            background-color: rgba(79, 70, 229, 0.1);
-            border-left: 4px solid #4f46e5;
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
         }
-        .sidebar-item.active.dark {
-            background-color: rgba(99, 102, 241, 0.2);
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
         }
     </style>
-</head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans h-full flex flex-col min-h-screen">
 
-    <!-- Navbar -->
-    <nav class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <!-- Logo & Mobile Menu Button -->
-                <div class="flex items-center">
-                    <button id="sidebar-toggle" class="md:hidden mr-2 text-gray-500 dark:text-gray-300">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <a href="{% url 'projects:project-list' %}" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-                        <i class="fas fa-leaf mr-2"></i>Blue Carbon MRV
-                    </a>
-                </div>
-                
-                <!-- Desktop Links -->
-                <div class="hidden md:flex space-x-6 items-center">
-                    {% if user.role == 'admin' %}
-                        <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400 relative">
-                            Verification Queue
-                            <span class="notification-dot"></span>
-                        </a>
-                        <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">Analytics</a>
-                        <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">Credit Issuance</a>
-                    {% elif user.role == 'ngo' %}
-                        <a href="{% url 'projects:project-list' %}" class="hover:text-indigo-600 dark:hover:text-indigo-400">My Projects</a>
-                        <a href="{% url 'projects:project-create' %}" class="hover:text-indigo-600 dark:hover:text-indigo-400">Submit Project</a>
-                        <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">Documents</a>
-                    {% elif user.role == 'corporate' %}
-                        <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">Marketplace</a>
-                        <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">My Credits</a>
-                        <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">Impact Reports</a>
-                    {% else %}
-                        <a href="{% url 'projects:project-list' %}" class="hover:text-indigo-600 dark:hover:text-indigo-400">Projects</a>
-                        <a href="{% url 'projects:project-create' %}" class="hover:text-indigo-600 dark:hover:text-indigo-400">Create</a>
-                        <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">Resources</a>
-                        <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">AI Insights</a>
-                    {% endif %}
-                </div>
-                
-                <!-- Right Side: User Menu & Dark Mode Toggle -->
-                <div class="flex items-center space-x-4">
-                    <!-- Dark Mode Toggle -->
-                    <button id="dark-mode-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <i class="fas fa-moon dark:hidden"></i>
-                        <i class="fas fa-sun hidden dark:block"></i>
-                    </button>
-                    
-                    <!-- Notifications -->
-                    <div class="relative">
-                        <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <i class="fas fa-bell"></i>
-                            <span class="notification-dot"></span>
-                        </button>
-                    </div>
-                    
-                    <!-- User Menu -->
-                    {% if user.is_authenticated %}
-                        <div class="relative" id="user-menu">
-                            <button class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center">
-                                    <i class="fas fa-user text-indigo-600 dark:text-indigo-400"></i>
-                                </div>
-                                <span class="text-gray-700 dark:text-gray-300">{{ user.username }}</span>
-                                <i class="fas fa-chevron-down text-xs"></i>
-                            </button>
-                            
-                            <!-- Dropdown Menu -->
-                            <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 z-50 hidden" id="user-dropdown">
-                                <div class="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-                                    <p class="text-sm font-medium">{{ user.get_full_name|default:user.username }}</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 capitalize">{{ user.role }}</p>
-                                </div>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                    <i class="fas fa-user-circle mr-2"></i>Profile
+    {% block extra_css %}{% endblock extra_css %}
+</head>
+
+<body class="h-full bg-gray-50 font-sans antialiased text-gray-800">
+    {% include 'includes/alerts.html' %}
+
+    <!-- Main Layout -->
+    <div class="flex h-full" x-data="{ mobileSidebarOpen: false }">
+        <!-- Mobile sidebar overlay -->
+
+        {% include 'includes/side-navbar.html' %}
+
+        <!-- Main Content Area -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            {% include 'includes/top-navbar.html' %}
+
+            <!-- Main content -->
+            <div class="flex-1 overflow-auto focus:outline-none">
+                <!-- Page header -->
+                <div class="bg-white shadow-sm border-b border-gray-200">
+                    <div class="px-4 sm:px-6 lg:px-8 py-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1 min-w-0">
+                                <h1 class="text-xl font-semibold text-gray-900">
+                                    {% block page %}{% endblock page %}
+                                </h1>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <a href="/"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sky-600 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                    <svg class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4v16m8-8H4" />
+                                    </svg>
+                                    Add Projects
                                 </a>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                    <i class="fas fa-cog mr-2"></i>Settings
-                                </a>
-                                <div class="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
-                                    <a href="#" class="block px-4 py-2 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                                    </a>
-                                </div>
                             </div>
                         </div>
-                    {% else %}
-                        <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 flex items-center">
-                            <i class="fas fa-sign-in-alt mr-2"></i>Login
-                        </a>
-                    {% endif %}
+                    </div>
+                </div>
+
+                <!-- Page content -->
+                <div class="bg-gray-50 flex-1">
+                    <div class="px-1 md:px-2 py-2">
+                        {% block content %}{% endblock content %}
+                    </div>
                 </div>
             </div>
         </div>
-    </nav>
 
-    <div class="flex flex-1">
-        <!-- Sidebar (Hidden on mobile) -->
-        <aside id="sidebar" class="bg-white dark:bg-gray-800 w-64 shadow-md sidebar-transition hidden md:block flex-shrink-0">
-            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-lg font-semibold">Dashboard</h2>
-            </div>
-            
-            <nav class="p-4">
-                {% if user.role == 'admin' %}
-                    <!-- Admin Navigation -->
-                    <ul class="space-y-2">
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-                                <i class="fas fa-tachometer-alt mr-3 text-gray-500"></i>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'verification-queue' %}active{% endif %}">
-                                <i class="fas fa-clipboard-check mr-3 text-gray-500"></i>
-                                Verification Queue
-                                <span class="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-1">5</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'documents' %}active{% endif %}">
-                                <i class="fas fa-file-contract mr-3 text-gray-500"></i>
-                                Document Verification
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'credit-issuance' %}active{% endif %}">
-                                <i class="fas fa-coins mr-3 text-gray-500"></i>
-                                Credit Issuance
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'analytics' %}active{% endif %}">
-                                <i class="fas fa-chart-bar mr-3 text-gray-500"></i>
-                                Analytics
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'map' %}active{% endif %}">
-                                <i class="fas fa-map-marked-alt mr-3 text-gray-500"></i>
-                                Project Map
-                            </a>
-                        </li>
-                    </ul>
-                    
-                {% elif user.role == 'ngo' %}
-                    <!-- NGO Navigation -->
-                    <ul class="space-y-2">
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-                                <i class="fas fa-tachometer-alt mr-3 text-gray-500"></i>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'projects:project-list' %}" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'project-list' %}active{% endif %}">
-                                <i class="fas fa-list-ul mr-3 text-gray-500"></i>
-                                My Projects
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'projects:project-create' %}" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'project-create' %}active{% endif %}">
-                                <i class="fas fa-plus-circle mr-3 text-gray-500"></i>
-                                Submit New Project
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'documents' %}active{% endif %}">
-                                <i class="fas fa-folder-open mr-3 text-gray-500"></i>
-                                Documents Repository
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'monitoring' %}active{% endif %}">
-                                <i class="fas fa-chart-line mr-3 text-gray-500"></i>
-                                Monitoring Data
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'badges' %}active{% endif %}">
-                                <i class="fas fa-award mr-3 text-gray-500"></i>
-                                Badges & Achievements
-                            </a>
-                        </li>
-                    </ul>
-                    
-                {% elif user.role == 'corporate' %}
-                    <!-- Corporate Navigation -->
-                    <ul class="space-y-2">
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-                                <i class="fas fa-tachometer-alt mr-3 text-gray-500"></i>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'project-list' %}active{% endif %}">
-                                <i class="fas fa-store mr-3 text-gray-500"></i>
-                                Marketplace
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'my-credits' %}active{% endif %}">
-                                <i class="fas fa-wallet mr-3 text-gray-500"></i>
-                                My Carbon Credits
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'impact-reports' %}active{% endif %}">
-                                <i class="fas fa-chart-pie mr-3 text-gray-500"></i>
-                                Impact Reports
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'certificates' %}active{% endif %}">
-                                <i class="fas fa-certificate mr-3 text-gray-500"></i>
-                                ESG Certificates
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {% if request.resolver_match.url_name == 'leaderboard' %}active{% endif %}">
-                                <i class="fas fa-trophy mr-3 text-gray-500"></i>
-                                Leaderboard
-                            </a>
-                        </li>
-                    </ul>
-                    
-                {% else %}
-                    <!-- Default Navigation (Public/Unauthenticated) -->
-                    <ul class="space-y-2">
-                        <li>
-                            <a href="{% url 'projects:project-list' %}" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <i class="fas fa-list-ul mr-3 text-gray-500"></i>
-                                All Projects
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'projects:project-create' %}" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <i class="fas fa-plus-circle mr-3 text-gray-500"></i>
-                                Submit Project
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <i class="fas fa-book mr-3 text-gray-500"></i>
-                                Resources
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <i class="fas fa-robot mr-3 text-gray-500"></i>
-                                AI Insights
-                            </a>
-                        </li>
-                    </ul>
-                {% endif %}
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 p-4 md:p-8 overflow-auto">
-            <!-- Breadcrumbs -->
-            <div class="mb-6">
-                <nav class="flex" aria-label="Breadcrumb">
-                    <ol class="inline-flex items-center space-x-1 md:space-x-3">
-                        <li class="inline-flex items-center">
-                            <a href="#" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-white">
-                                <i class="fas fa-home mr-2"></i>
-                                Home
-                            </a>
-                        </li>
-                        {% block breadcrumbs %}
-                        <!-- Breadcrumbs will be inserted by child templates -->
-                        {% endblock %}
-                    </ol>
-                </nav>
-            </div>
-            
-            <!-- Page Header -->
-            <div class="mb-6">
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{% block page_title %}Dashboard{% endblock %}</h1>
-                <p class="text-gray-600 dark:text-gray-400 mt-2">{% block page_description %}Welcome to your dashboard{% endblock %}</p>
-            </div>
-            
-            <!-- Notifications/Alerts -->
-            {% if messages %}
-                <div class="mb-6">
-                    {% for message in messages %}
-                        <div class="p-4 rounded-lg {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            
-            <!-- Main Content Block -->
-            {% block content %}
-            <!-- Page content will go here -->
-            {% endblock %}
-        </main>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-white dark:bg-gray-800 border-t dark:border-gray-700 mt-12">
-        <div class="max-w-7xl mx-auto py-6 px-4 flex flex-col md:flex-row justify-between text-sm text-gray-500 dark:text-gray-400">
-            <div class="mb-4 md:mb-0">
-                <p>&copy; 2025 CarbonCoders.PSITCHE All rights reserved.</p>
-                <p class="mt-2">Built with <i class="fas fa-heart text-red-500"></i> for a sustainable future</p>
-            </div>
-            <div class="flex space-x-6">
-                <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">Privacy Policy</a>
-                <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">Terms of Service</a>
-                <a href="#" class="hover:text-indigo-600 dark:hover:text-indigo-400">Contact</a>
-            </div>
+    <!-- Toast notification container -->
+    <div aria-live="assertive"
+        class="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start z-50">
+        <div class="w-full flex flex-col items-center space-y-4 sm:items-end">
         </div>
-    </footer>
+    </div>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
     <script>
-        // Toggle sidebar on mobile
-        document.getElementById('sidebar-toggle').addEventListener('click', function() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('hidden');
-        });
-        
-        // Toggle dark mode
-        document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
-        
-        // Toggle user dropdown
-        document.getElementById('user-menu').addEventListener('click', function() {
-            document.getElementById('user-dropdown').classList.toggle('hidden');
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const userMenu = document.getElementById('user-menu');
-            const dropdown = document.getElementById('user-dropdown');
-            if (!userMenu.contains(event.target)) {
-                dropdown.classList.add('hidden');
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toastContainer = document.querySelector('[aria-live="assertive"] .w-full');
+            const toastId = 'toast-' + Date.now();
+
+            const toast = document.createElement('div');
+            toast.id = toastId;
+            toast.className = `max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden transition-all duration-300 transform ${type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`;
+            toast.innerHTML = `
+                <div class="p-4">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            ${type === 'success' ?
+                    '<svg class="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>' :
+                    '<svg class="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>'}
+                        </div>
+                        <div class="ml-3 w-0 flex-1 pt-0.5">
+                            <p class="text-sm font-medium">${message}</p>
+                        </div>
+                        <div class="ml-4 flex-shrink-0 flex">
+                            <button onclick="document.getElementById('${toastId}').remove()" class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                <span class="sr-only">Close</span>
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            // Auto-remove toast after 5 seconds
+            setTimeout(() => {
+                const toastElement = document.getElementById(toastId);
+                if (toastElement) {
+                    toastElement.classList.add('opacity-0', 'translate-y-2');
+                    setTimeout(() => {
+                        toastElement.remove();
+                    }, 300);
+                }
+            }, 5000);
+        }
+
+        // Copy functions with toast feedback
+        function copyReferralCode() {
+            const code = document.getElementById('referral-code');
+            code.select();
+            document.execCommand('copy');
+
+            showToast('Invitation code copied to clipboard!', 'success');
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copied to clipboard!', 'success');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                showToast('Failed to copy to clipboard', 'error');
+            });
+        }
+
+        // Share functionality
+        function share() {
+            const title = "Join me in planting trees across India!";
+            const url = "{{ request.scheme }}://{{ request.get_host }}/accounts/login/?ref={{ request.user.referral_code }}";
+            const text = `Help make a difference by planting trees. Join using my invitation link: ${url}`;
+
+            if (navigator.share) {
+                navigator.share({ title, text, url })
+                    .catch((err) => {
+                        console.warn('Share failed or cancelled:', err);
+                        copyToClipboard(url);
+                    });
+            } else {
+                copyToClipboard(url);
             }
-        });
+        }
     </script>
-    
-    {% block extra_scripts %}
-    <!-- Additional scripts for child templates -->
-    {% endblock %}
+    {% block extra_js %}{% endblock extra_js %}
 </body>
+
 </html>
