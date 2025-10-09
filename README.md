@@ -9,7 +9,9 @@ The **Blue Carbon MRV (Monitoring, Reporting, and Verification)** System is an i
 
 Our goal is to make **blue carbon restoration** — particularly **mangrove and seagrass ecosystems** — measurable, reportable, and verifiable through a transparent, scalable, and digital interface.
 
-🔗 **Live Prototype:** [https://atulg-spec.github.io/MRV/](https://atulg-spec.github.io/MRV/)
+> 🚀 **🔗 Live Prototype:** [https://atulg-spec.github.io/MRV/](https://atulg-spec.github.io/MRV/)  
+> _(Built during Internal Hackathon — a newer version is available below!)_
+
 
 ![Prototype Preview](https://raw.githubusercontent.com/atulg-spec/MRV/main/static/img/prototypeimage.jpeg)
 
@@ -40,22 +42,16 @@ Our system follows a clear five-step pipeline that simplifies and digitizes the 
 
 ## 📱 User Interfaces and Application Screens  
 
-Below are snapshots of our responsive, TailwindCSS-based user interfaces designed for both web and mobile screens.
+Below are snapshots of our responsive, Flutter Application with user interfaces designed for both Android and iOS.
 
-1. ![Screen 1](https://raw.githubusercontent.com/atulg-spec/MRV/main/static/screens/screen1.png)  
-   *Login and Registration Interface for NGOs and Communities.*
+<p align="center">
+  <img src="https://raw.githubusercontent.com/atulg-spec/MRV/main/static/screens/screen1.png" width="18%" />
+  <img src="https://raw.githubusercontent.com/atulg-spec/MRV/main/static/screens/screen2.png" width="18%" />
+  <img src="https://raw.githubusercontent.com/atulg-spec/MRV/main/static/screens/screen3.png" width="18%" />
+  <img src="https://raw.githubusercontent.com/atulg-spec/MRV/main/static/screens/screen4.png" width="18%" />
+  <img src="https://raw.githubusercontent.com/atulg-spec/MRV/main/static/screens/screen5.png" width="18%" />
+</p>
 
-2. ![Screen 2](https://raw.githubusercontent.com/atulg-spec/MRV/main/static/screens/screen2.png)  
-   *Project Upload and Documentation Submission Page.*
-
-3. ![Screen 3](https://raw.githubusercontent.com/atulg-spec/MRV/main/static/screens/screen3.png)  
-   *Project Status Dashboard displaying verification progress.*
-
-4. ![Screen 4](https://raw.githubusercontent.com/atulg-spec/MRV/main/static/screens/screen4.png)  
-   *Verifier’s Panel to review and authenticate uploaded data.*
-
-5. ![Screen 5](https://raw.githubusercontent.com/atulg-spec/MRV/main/static/screens/screen5.png)  
-   *Reports and Carbon Credit Analytics section.*
 
 ---
 
